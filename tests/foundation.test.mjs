@@ -42,10 +42,10 @@ test('no deployed production URL or tracking keys are embedded',()=>{
   assert.ok(!/vishva-tech-picks\.pages\.dev/i.test(files));
 });
 
-test('Visha Tech Picks branding is consistent with retained repository slug',()=>{
-  assert.ok(load('src/data/site.ts').includes("name: 'Visha Tech Picks'"));
-  assert.ok(load('src/layouts/BaseLayout.astro').includes('Visha Tech Picks'));
-  assert.ok(load('README.md').startsWith('# Visha Tech Picks'));
+test('Visha Shops branding is consistent with retained repository slug',()=>{
+  assert.ok(load('src/data/site.ts').includes("name: 'Visha Shops'"));
+  assert.ok(load('src/layouts/BaseLayout.astro').includes('Visha Shops'));
+  assert.ok(load('README.md').startsWith('# Visha Shops'));
   assert.ok(load('docs/DEPLOYMENT.md').includes('Vishva-e/vishva-tech-picks'));
   assert.ok(!load('src/components/Header.astro').includes('Vishva Tech Picks'));
 });

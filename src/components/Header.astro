@@ -4,16 +4,18 @@ interface Props { path: string }
 const { path } = Astro.props;
 ---
 <header class="site-header">
+  <div class="utility-bar"><div class="shell utility-bar-inner"><span><span class="utility-pulse" aria-hidden="true"></span> Smarter shopping starts here</span><a href="/editorial-policy/">Independent by design <span aria-hidden="true">↗</span></a></div></div>
   <div class="shell header-inner">
-    <a class="brand" href="/" aria-label="Visha Tech Picks home">
+    <a class="brand" href="/" aria-label="Visha Shops home">
       <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M5 6h7l5 16h-6L5 6Zm18 0h-7l-3 9 3 7 7-16Z" fill="currentColor"/></svg></span>
-      <span class="brand-title">Visha <strong>Tech Picks</strong></span>
+      <span class="brand-title">Visha <strong>Shops</strong></span>
     </a>
     <nav class="desktop-nav" aria-label="Primary navigation">
       {navigation.map(item => <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>)}
     </nav>
     <div class="nav-actions">
-      <a class="nav-search" href="/guides/" aria-label="Explore buying guides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5" stroke-linecap="round"/></svg></a>
+      <a class="header-cta" href="/product-finder/">Find your fit <span aria-hidden="true">↗</span></a>
+      <a class="nav-search" href="/guides/" aria-label="Search buying guides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5" stroke-linecap="round"/></svg></a>
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-navigation">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
       </button>
@@ -21,7 +23,7 @@ const { path } = Astro.props;
   </div>
   <nav id="mobile-navigation" class="mobile-nav" aria-label="Mobile navigation" hidden>
     {navigation.map(item => <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}<span aria-hidden="true">↗</span></a>)}
-    <a href="/editorial-policy/">Our editorial promise <span aria-hidden="true">↗</span></a>
+    <a href="/product-finder/">Find your fit <span aria-hidden="true">↗</span></a>
   </nav>
 </header>
 <script>

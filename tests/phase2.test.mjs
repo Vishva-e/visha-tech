@@ -32,10 +32,10 @@ test('comparison workbench is progressive, accessible, and does not invent price
   assert.ok(!/₹\s*\d+/.test(data));
 });
 
-test('brand is Visha Tech Picks across header and footer',()=>{
+test('brand is Visha Shops across header and footer',()=>{
   for(const file of ['src/components/Header.astro','src/components/Footer.astro']){
     assert.ok(!source(file).includes('Vishva <strong>Tech Picks</strong>'),file+' contains previous branding');
-    assert.ok(source(file).includes('Visha <strong>Tech Picks</strong>'));
+    assert.ok(source(file).includes('Visha <strong>Shops</strong>'));
   }
 });
 
