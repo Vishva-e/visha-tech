@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# Pre-release safeguard. Replace and deploy only following written release approval.

@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { approvedPublicContactEmail } from '../config/public-contact.mjs';
+const contactEmail=approvedPublicContactEmail;
+const contactEnabled=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail) && contactEmail.length<=254;
+---
+<BaseLayout title="Contact" description="Send corrections, research suggestions or editorial questions to Visha Tech Picks.">
+  <div class="content-container simple-page prose">
+    <span class="eyebrow">Get in touch</span><h1>Contact us</h1>
+    <p class="intro">We welcome product-guide feedback, corrections and helpful suggestions.</p>
+    {contactEnabled
+      ? <div class="notice"><strong>Editorial contact:</strong> <a href={`mailto:${contactEmail}?subject=Visha%20Tech%20Picks%20Editorial%20Feedback`}>{contactEmail}</a></div>
+      : <div class="notice"><strong>Contact channel pending:</strong> The owner has not approved a public email address. Please do not send personal information through unverified channels.</div>
+    }
+    <h2>Corrections and suggestions</h2>
+    <p>For a factual correction, include the article title, the claim in question and a reliable source. Avoid sending passwords, account credentials or other sensitive data.</p>
+    <p>Explore the <a href="/guides/">buying guides</a> or read the <a href="/editorial-policy/">research policy</a>.</p>
+  </div>
+</BaseLayout>

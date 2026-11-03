@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import PageHeading from '../../components/PageHeading.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../data/site';
+const guides = (await getCollection('guides', ({data}) => !data.draft)).sort((a,b) => b.data.updatedAt.getTime()-a.data.updatedAt.getTime());
+---
+<BaseLayout title="Buying guides" description="Find independent technology buying guides by topic, category and use case. Desk research for Indian students, developers and professionals.">
+  <PageHeading eyebrow="The library" title="Explore buying guides" description="Search the editorial library, filter topics and compare real trade-offs without promotional rankings." />
+  <section class="shell listing-section" aria-label="Browse technology guides">
+    <div class="guide-controls">
+      <label class="search-box" for="guide-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7"/><path d="m16 16 5 5"/></svg>
+        <input id="guide-search" type="search" placeholder="Search topics (e.g. laptop, RAM, SSD)" autocomplete="off" aria-controls="guide-list" />
+      </label>
+      <label class="guide-select-label" for="guide-category">Category
+        <select id="guide-category" aria-controls="guide-list">
+          <option value="all">All categories</option>
+          {categories.map(category => <option value={category.slug}>{category.name}</option>)}
+        </select>
+      </label>
+      <label class="guide-select-label" for="guide-sort">Sort by
+        <select id="guide-sort" aria-controls="guide-list">
+          <option value="updated">Recently updated</option>
+          <option value="title">Title A–Z</option>
+          <option value="reading">Shortest read</option>
+        </select>
+      </label>
+      <button type="button" id="guide-reset" class="btn btn-secondary">Clear filters</button>
+    </div>
+    <p id="guide-count" class="guide-count" role="status" aria-live="polite">Showing {guides.length} guides</p>
+    <div class="filter-row" aria-label="Quick category links"><a href="/guides/" aria-current="page">All guides</a>{categories.map(category=><a href={`/categories/${category.slug}/`}>{category.name}</a>)}</div>
+    <div class="guide-grid" id="guide-list">
+      {guides.map(guide=><div class="search-item" data-search={`${guide.data.title} ${guide.data.description} ${guide.data.tags.join(' ')}`.toLocaleLowerCase('en-IN')} data-category={guide.data.category} data-title={guide.data.title} data-updated={guide.data.updatedAt.getTime()} data-read={guide.data.readMinutes}><GuideCard guide={guide} /></div>)}
+    </div>
+    <div class="empty-state" id="search-empty" hidden>No matching guides found. Clear your filters or try a broader term.</div>
+  </section>
+</BaseLayout>
+<script>
+  const input = document.querySelector<HTMLInputElement>('#guide-search');
+  const category = document.querySelector<HTMLSelectElement>('#guide-category');
+  const sort = document.querySelector<HTMLSelectElement>('#guide-sort');
+  const reset = document.querySelector<HTMLButtonElement>('#guide-reset');
+  const list = document.querySelector<HTMLElement>('#guide-list');
+  const cards = [...document.querySelectorAll<HTMLElement>('.search-item')];
+  const empty = document.querySelector<HTMLElement>('#search-empty');
+  const count = document.querySelector<HTMLElement>('#guide-count');
+  const allowed = new Set(['laptops','developer-gear','smartphones','audio','storage','work-from-home']);
+  function applyFilters(updateAddress = true) {
+    if (!input || !category || !sort || !list) return;
+    const query = input.value.trim().toLocaleLowerCase('en-IN');
+    const type = category.value;
+    let shown = 0;
+    for (const card of cards) {
+      const visible = (card.dataset.search || '').includes(query) && (type === 'all' || card.dataset.category === type);
+      card.hidden = !visible;
+      if (visible) shown++;
+    }
+    const by = sort.value;
+    const ordered = [...cards].sort((a,b) => {
+      if (by === 'title') return (a.dataset.title || '').localeCompare(b.dataset.title || '','en-IN');
+      if (by === 'reading') return Number(a.dataset.read || 0) - Number(b.dataset.read || 0);
+      return Number(b.dataset.updated || 0) - Number(a.dataset.updated || 0);
+    });
+    list.replaceChildren(...ordered);
+    if (empty) empty.hidden = shown !== 0;
+    if (count) count.textContent = `Showing ${shown} of ${cards.length} guides`;
+    if (updateAddress) {
+      const url = new URL(window.location.href);
+      if (query) url.searchParams.set('q', query); else url.searchParams.delete('q');
+      if (type !== 'all') url.searchParams.set('category',type); else url.searchParams.delete('category');
+      if (by !== 'updated') url.searchParams.set('sort',by); else url.searchParams.delete('sort');
+      window.history.replaceState(null,'',url.pathname + url.search + url.hash);
+    }
+  }
+  if (input && category && sort) {
+    const params = new URLSearchParams(window.location.search);
+    input.value = params.get('q') || '';
+    const incomingCategory = params.get('category') || '';
+    category.value = allowed.has(incomingCategory) ? incomingCategory : 'all';
+    sort.value = ['updated','title','reading'].includes(params.get('sort') || '') ? params.get('sort')! : 'updated';
+    applyFilters(false);
+    input.addEventListener('input',()=>applyFilters());
+    category.addEventListener('change',()=>applyFilters());
+    sort.addEventListener('change',()=>applyFilters());
+    reset?.addEventListener('click',()=>{
+      input.value = '';
+      category.value = 'all';
+      sort.value = 'updated';
+      applyFilters();
+      input.focus();
+    });
+  }
+</script>
+<style>
+  .search-item[hidden]{display:none}.search-item :global(.guide-card){height:100%}
+</style>

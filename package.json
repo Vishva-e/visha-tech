@@ -1,0 +1,36 @@
+{
+  "name": "visha-tech",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro build && node scripts/finalize-build.mjs",
+    "preview": "astro preview --host 127.0.0.1",
+    "check": "astro check",
+    "test": "node --test tests/*.test.mjs",
+    "validate": "npm run check && npm test && npm run build && npm run audit:build",
+    "agent:amazon": "node scripts/amazon-agent.mjs",
+    "agent:amazon:help": "node scripts/amazon-agent.mjs help",
+    "agent:dashboard": "node scripts/product-review-dashboard.mjs",
+    "audit:build": "node scripts/audit-build.mjs",
+    "agent:handoff": "node scripts/amazon-handoff.mjs",
+    "release:preflight": "node scripts/release-preflight.mjs",
+    "audit:release": "node scripts/audit-release.mjs",
+    "build:release": "npm run build && npm run audit:release"
+  },
+  "dependencies": {
+    "astro": "^6.0.0",
+    "tailwindcss": "^4.1.0",
+    "@tailwindcss/postcss": "^4.1.0",
+    "postcss": "^8.4.49"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^5.9.0",
+    "@types/node": "^22.15.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="robots" content="noindex,nofollow"/>
+<title>Visha Tech Picks — Private Product Review</title>
+<style nonce="__NONCE__">
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#192c48;background:#f4f8fd}
+*{box-sizing:border-box}body{margin:0}main{max-width:1020px;margin:30px auto;padding:0 18px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h1{font-size:clamp(23px,4vw,36px);margin:8px 0}h2{font-size:19px;margin:0}
+h3{margin:8px 0}small,.muted{color:#63718b}p{line-height:1.6}
+.pill{padding:5px 10px;border-radius:20px;background:#e2edff;color:#194995;font-size:12px;font-weight:750}
+.panel,.item{background:white;border:1px solid #dbe5f2;border-radius:18px;padding:22px;margin-top:18px}
+label{display:block;font-weight:650;margin-bottom:7px}input,textarea{font:inherit;border:1px solid #b6c7da;border-radius:9px;padding:11px;width:100%}textarea{min-height:80px}
+button{font:inherit;font-weight:650;border-radius:10px;padding:11px 15px;border:1px solid #2359b7;background:#2360c7;color:white;cursor:pointer}
+button.secondary{background:white;color:#234781}button.danger{background:#a42626;border-color:#a42626}
+button:disabled{opacity:.5;cursor:not-allowed}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #86b6f8;outline-offset:2px}
+.row{display:flex;gap:11px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.row button{flex:none}
+#items{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:15px;margin:18px 0}
+.item{margin:0;min-width:0}.item p{overflow-wrap:anywhere}.item .actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}
+.item small{display:block}.status{font-weight:750;color:#275d91}
+#message{min-height:24px;color:#18488d;font-weight:650}
+</style></head>
+<body><main>
+<header><div><small>LOCALHOST-ONLY EDITORIAL TOOL</small><h1>Visha Tech Picks</h1><p class="muted">Amazon product review queue — decisions never publish a website page.</p></div><span class="pill">Private · No Amazon login</span></header>
+<section class="panel"><h2>Unlock local review queue</h2>
+<p>Copy the one-time token from your terminal. It is held in page memory only; no cookies or third-party services.</p>
+<div class="row"><div><label for="token">Local review token</label><input id="token" type="password" autocomplete="off" spellcheck="false" /></div><button id="load">Load drafts</button></div>
+<p id="message" role="status" aria-live="polite"></p></section>
+<section aria-label="Product drafts"><h2>Queued products</h2><p class="muted">Each record came from an owner-provided SiteStripe link and original note. Review before approval.</p><div id="items"></div></section>
+</main>
+<script nonce="__NONCE__">
+(() => {
+ const byId=id=>document.getElementById(id);
+ const items=byId('items'),notice=byId('message'),tokenInput=byId('token');
+ let token='';
+ async function request(path,body) {
+   const response=await fetch(path,{method:body?'POST':'GET',headers:{'x-visha-review-token':token,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
+   const data=await response.json();if(!response.ok)throw new Error(data.error||'Request failed');return data;
+ }
+ function element(tag,text,className) {
+   const node=document.createElement(tag);node.textContent=text;
+   if(className)node.className=className;return node;
+ }
+ async function refresh() {
+   notice.textContent='Loading local drafts…';
+   try {
+     const result=await request('/api/items');items.replaceChildren();
+     if(result.items.length===0)items.append(element('p','No product drafts yet. Use npm run agent:amazon -- queue.'));
+     for(const draft of result.items) {
+       const card=element('article','','item');
+       card.append(element('small',draft.category+' · '+draft.amazon.asin));
+       card.append(element('h3',draft.title));
+       card.append(element('p',draft.editorialNote));
+       card.append(element('p','Review status: '+draft.reviewStatus,'status'));
+       card.append(element('small','Website publication: blocked'));
+       if(draft.reviewStatus==='pending') {
+         const label=element('label','Editorial review note (minimum 12 characters)');
+         const note=document.createElement('textarea');note.placeholder='Explain the decision and what you verified.';
+         const actions=element('div','','actions');
+         for(const [labelText,decision] of [['Approve for editorial review','approve'],['Reject draft','reject']]) {
+           const button=element('button',labelText,decision==='reject'?'danger':'secondary');
+           button.addEventListener('click',async()=>{
+             if(!confirm('Save '+decision+' decision? This does not publish anything.'))return;
+             try {
+               button.disabled=true;
+               await request('/api/decision',{id:draft.id,decision,note:note.value});
+               await refresh();
+             }catch(error){notice.textContent=error.message||String(error);button.disabled=false;}
+           });
+           actions.append(button);
+         }
+         card.append(label,note,actions);
+       }
+       items.append(card);
+     }
+     notice.textContent='Loaded '+result.items.length+' draft(s).';
+   }catch(error){notice.textContent=error.message||String(error);}
+ }
+ byId('load').addEventListener('click',()=>{token=tokenInput.value.trim();tokenInput.value='';refresh();});
+})();
+</script></body></html>

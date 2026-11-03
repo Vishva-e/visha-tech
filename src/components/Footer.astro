@@ -1,0 +1,16 @@
+---
+import { brand } from '../data/site';
+const amazonActive = import.meta.env.PUBLIC_AMAZON_ASSOCIATE_ACTIVE === 'true';
+---
+<footer class="site-footer">
+  <div class="shell footer-layout">
+    <div class="footer-brand">
+      <a href="/" class="brand footer-logo"><span class="brand-mark" aria-hidden="true">V</span><span class="brand-title">Visha <strong>Tech Picks</strong></span></a>
+      <p>Smart tech. Clear choices. Practical advice, without the noise.</p>
+      {amazonActive ? <p class="footer-disclosure">As an Amazon Associate I earn from qualifying purchases.</p> : <p class="footer-disclosure">Affiliate links may be introduced after programme verification. <a href="/affiliate-disclosure/">Read our disclosure</a>.</p>}
+    </div>
+    <div class="footer-links"><h2>Explore</h2><a href="/guides/">All guides</a><a href="/comparisons/">Comparisons</a><a href="/categories/laptops/">Laptops</a><a href="/categories/developer-gear/">Developer gear</a></div>
+    <div class="footer-links"><h2>Information</h2><a href="/about/">About us</a><a href="/editorial-policy/">Editorial policy</a><a href="/affiliate-disclosure/">Affiliate disclosure</a><a href="/privacy/">Privacy</a><a href="/contact/">Contact</a></div>
+  </div>
+  <div class="shell footer-bottom"><span>© {new Date().getUTCFullYear()} {brand.copyrightOwner}. All rights reserved.</span><span>Built for curious Indian tech buyers.</span></div>
+</footer>

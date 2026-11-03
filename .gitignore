@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+.DS_Store
+.cloudflare/
+.wrangler/
+coverage/
+
+# Agent data stays private and is never committed
+data/amazon/review-queue/
+
+# Affiliate candidate export is local human-review material, never deploy or commit
+data/amazon/handoff/

@@ -1,0 +1,73 @@
+---
+import { comparisonTopics } from '../data/comparisons';
+const first = comparisonTopics[0];
+---
+<div class="comparison-workbench">
+  <div class="comparison-selector">
+    <label for="comparison-topic">Choose a comparison</label>
+    <select id="comparison-topic" aria-controls="comparison-panel">
+      {comparisonTopics.map(topic => <option value={topic.id}>{topic.label}</option>)}
+    </select>
+    <p class="comparison-caption">Evidence-led use cases · No live prices or invented benchmarks</p>
+  </div>
+  <section id="comparison-panel" aria-live="polite" aria-atomic="false">
+    <h2 id="comparison-title">{first.label}</h2>
+    <p id="comparison-intro">{first.intro}</p>
+    <p class="comparison-swipe-hint" aria-hidden="true">Swipe sideways to compare both options ↔</p>
+    <div class="comparison-scroll" role="region" aria-label="Feature comparison table" tabindex="0">
+      <table id="comparison-table">
+        <thead><tr><th scope="col">What matters</th>{first.options.map(option => <th scope="col">{option.name}</th>)}</tr></thead>
+        <tbody>
+          <tr><th scope="row">Ideal for</th>{first.options.map(option => <td>{option.bestFor}</td>)}</tr>
+          {first.rows.map(row => <tr><th scope="row">{row.factor}</th>{row.explanation.map(detail => <td>{detail}</td>)}</tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-qualification" id="comparison-note">{first.editorialNote}</p>
+    <a class="btn btn-secondary" id="comparison-guide" href={first.guideHref}>Read the full buying guide ↗</a>
+  </section>
+</div>
+<script>
+  import { comparisonTopics } from '../data/comparisons';
+  const select = document.querySelector<HTMLSelectElement>('#comparison-topic');
+  const title = document.querySelector<HTMLElement>('#comparison-title');
+  const intro = document.querySelector<HTMLElement>('#comparison-intro');
+  const note = document.querySelector<HTMLElement>('#comparison-note');
+  const guide = document.querySelector<HTMLAnchorElement>('#comparison-guide');
+  const table = document.querySelector<HTMLTableElement>('#comparison-table');
+  const createCell = (tag: 'td' | 'th', value: string, scope?: string) => {
+    const node = document.createElement(tag);
+    node.textContent = value;
+    if (scope) node.setAttribute('scope', scope);
+    return node;
+  };
+  function selectTopic(value: string) {
+    const topic = comparisonTopics.find(item => item.id === value) ?? comparisonTopics[0];
+    if (!topic || !table) return;
+    if (title) title.textContent = topic.label;
+    if (intro) intro.textContent = topic.intro;
+    if (note) note.textContent = topic.editorialNote;
+    if (guide) guide.href = topic.guideHref;
+    const head = table.tHead?.rows[0];
+    head?.replaceChildren(createCell('th','What matters','col'), ...topic.options.map(option => createCell('th',option.name,'col')));
+    const body = table.tBodies[0];
+    if (!body) return;
+    const rows = [
+      { factor: 'Ideal for', explanation: [topic.options[0].bestFor, topic.options[1].bestFor] },
+      ...topic.rows,
+    ];
+    body.replaceChildren(...rows.map(row => {
+      const tr = document.createElement('tr');
+      tr.append(createCell('th',row.factor,'row'), ...row.explanation.map(text => createCell('td',text)));
+      return tr;
+    }));
+  }
+  select?.addEventListener('change', () => selectTopic(select.value));
+  if (select) {
+    const preset = new URLSearchParams(location.search).get('topic');
+    if (preset && comparisonTopics.some(item => item.id === preset)) {
+      select.value = preset;
+      selectTopic(preset);
+    }
+  }
+</script>

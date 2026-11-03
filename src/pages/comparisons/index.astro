@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeading from '../../components/PageHeading.astro';
+import ComparisonTool from '../../components/ComparisonTool.astro';
+---
+<BaseLayout title="Compare tech choices" description="Interactive, editorial side-by-side comparisons of meaningful hardware trade-offs, without fabricated benchmarks or live Amazon prices.">
+  <PageHeading eyebrow="Decision made simpler" title="Compare what matters" description="Choose a question, see both sides, then read the full guide. No hidden rankings or promotional pricing." />
+  <section class="shell listing-section">
+    <ComparisonTool />
+  </section>
+</BaseLayout>

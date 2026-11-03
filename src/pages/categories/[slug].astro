@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GuideCard from '../../components/GuideCard.astro';
+import PageHeading from '../../components/PageHeading.astro';
+import { categories } from '../../data/site';
+import { getCollection } from 'astro:content';
+export function getStaticPaths() { return categories.map(category=>({params:{slug:category.slug},props:{category}})); }
+interface Props { category: typeof categories[number] }
+const { category } = Astro.props;
+const guides = (await getCollection('guides',({data})=> !data.draft && data.category===category.slug)).sort((a,b)=>b.data.updatedAt.getTime()-a.data.updatedAt.getTime());
+---
+<BaseLayout title={`${category.name} buying guides`} description={category.summary}>
+  <PageHeading eyebrow={`${category.icon} Explore category`} title={category.name} description={category.summary} />
+  <section class="shell listing-section"><div class="filter-row"><a href="/guides/">← All guides</a>{categories.map(item=><a href={`/categories/${item.slug}/`} aria-current={item.slug===category.slug?'page':undefined}>{item.name}</a>)}</div>
+    {guides.length > 0 ? <div class="guide-grid">{guides.map(guide=><GuideCard guide={guide}/>)}</div> : <div class="empty-state"><h2>Guides are in progress</h2><p>We're preparing original {category.name.toLowerCase()} content. Explore our published guides in the meantime.</p><a href="/guides/" class="btn btn-primary">Browse all guides ↗</a></div>}
+  </section>
+</BaseLayout>

@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeading from '../../components/PageHeading.astro';
+import { finderUses, finderPriorities, findGuidance } from '../../data/finder';
+const initial = findGuidance('student','value');
+---
+<BaseLayout title="Tech buying decision finder" description="A practical technology buying decision finder for Indian students, developers and remote workers. Understand what features to check before shopping.">
+  <PageHeading eyebrow="Find your criteria" title="Tech buying decision finder" description="Tell us how you plan to use your tech. We'll show what to verify—not fabricated product rankings or live prices." />
+  <section class="shell listing-section">
+    <div class="finder-workbench">
+      <div class="finder-form">
+        <label for="finder-use">What will you mainly do?</label>
+        <select id="finder-use" aria-controls="finder-result">{finderUses.map(item=><option value={item.id}>{item.label}</option>)}</select>
+        <label for="finder-priority">What matters most?</label>
+        <select id="finder-priority" aria-controls="finder-result">{finderPriorities.map(item=><option value={item.id}>{item.label}</option>)}</select>
+        <p class="comparison-caption">No login, tracking, paid placements or external requests. Recommendations are editorial checklists only.</p>
+      </div>
+      <article id="finder-result" class="finder-result" aria-live="polite">
+        <span class="eyebrow">What to evaluate</span>
+        <h2 id="finder-title">{initial.title}</h2>
+        <p id="finder-summary">{initial.summary}</p>
+        <ul id="finder-features">{initial.features.map(feature=><li>{feature}</li>)}</ul>
+        <p id="finder-note" class="comparison-qualification">{initial.note}</p>
+        <a id="finder-guide" class="btn btn-primary" href={initial.guide}>Read the matching guide ↗</a>
+      </article>
+    </div>
+    <div class="notice" style="margin-top:24px"><strong>No product endorsement:</strong> The finder does not retrieve Amazon catalogue data, verify current availability or select products for sale. Check the latest manufacturer specifications, seller terms and applicable warranty before buying.</div>
+  </section>
+</BaseLayout>
+<script>
+  import { findGuidance, finderUses, finderPriorities } from '../../data/finder';
+  const use = document.querySelector<HTMLSelectElement>('#finder-use');
+  const priority = document.querySelector<HTMLSelectElement>('#finder-priority');
+  const title = document.querySelector<HTMLElement>('#finder-title');
+  const summary = document.querySelector<HTMLElement>('#finder-summary');
+  const features = document.querySelector<HTMLElement>('#finder-features');
+  const note = document.querySelector<HTMLElement>('#finder-note');
+  const guide = document.querySelector<HTMLAnchorElement>('#finder-guide');
+  const uses = new Set(finderUses.map(item=>item.id));
+  const priorities = new Set(finderPriorities.map(item=>item.id));
+  function refresh() {
+    if (!use || !priority || !features) return;
+    const selectedUse = finderUses.find(item=>item.id===use.value)?.id ?? 'student';
+    const selectedPriority = finderPriorities.find(item=>item.id===priority.value)?.id ?? 'value';
+    const result = findGuidance(selectedUse, selectedPriority);
+    if (title) title.textContent=result.title;
+    if (summary) summary.textContent=result.summary;
+    if (note) note.textContent=result.note;
+    if (guide) guide.href=result.guide;
+    features.replaceChildren(...result.features.map(item=>{
+      const li=document.createElement('li');
+      li.textContent=item;
+      return li;
+    }));
+    const url = new URL(window.location.href);
+    url.searchParams.set('use',selectedUse);
+    url.searchParams.set('priority',selectedPriority);
+    history.replaceState(null,'',url.pathname+url.search);
+  }
+  if (use && priority) {
+    const params = new URLSearchParams(location.search);
+    const requestedUse=params.get('use')||'student';
+    const requestedPriority=params.get('priority')||'value';
+    use.value=uses.has(requestedUse as typeof finderUses[number]['id'])?requestedUse:'student';
+    priority.value=priorities.has(requestedPriority as typeof finderPriorities[number]['id'])?requestedPriority:'value';
+    use.addEventListener('change',refresh);
+    priority.addEventListener('change',refresh);
+    // Render URL-preset state without modifying history when no preset was supplied.
+    if (params.has('use') || params.has('priority')) refresh();
+  }
+</script>
