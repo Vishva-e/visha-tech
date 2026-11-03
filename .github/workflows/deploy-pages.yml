@@ -1,7 +1,5 @@
-name: GitHub Pages - Visha Tech Picks noindex preview
+name: GitHub Pages - Visha Tech Picks optional preview
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
