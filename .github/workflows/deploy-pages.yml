@@ -1,0 +1,44 @@
+name: GitHub Pages - Visha Tech Picks noindex preview
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: visha-github-pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - name: Locked dependency install
+        run: npm ci --no-audit --no-fund
+      - name: Static source check and unit tests
+        run: npm run check && npm test
+      - name: Build private preview site and audit original routes
+        env:
+          PUBLIC_SITE_LIVE: 'false'
+          PUBLIC_AMAZON_ASSOCIATE_ACTIVE: 'false'
+          GITHUB_PAGES_BASE: /visha-tech
+        run: npm run build && npm run audit:build
+      - name: Prepare path-prefixed GitHub Pages static artifacts
+        env:
+          GITHUB_PAGES_BASE: /visha-tech
+        run: node scripts/prepare-github-pages.mjs
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+      - uses: actions/deploy-pages@v4
+        id: deployment
