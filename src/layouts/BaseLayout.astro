@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import '../styles/modern.css';
 interface Props { title: string; description: string; kind?: 'website'|'article'; }
 const { title, description, kind = 'website' } = Astro.props;
 const currentPath = Astro.url.pathname;
@@ -14,7 +15,7 @@ const fullTitle = title === 'Home' ? 'Visha Shops — Find Better Tech. Shop Sma
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#F8FAFD" />
+    <meta name="theme-color" content="#F8F9FD" />
     <meta name="description" content={description} />
     <meta name="robots" content={live ? 'index,follow,max-image-preview:large' : 'noindex,nofollow,noarchive'} />
     <meta property="og:type" content={kind} />
