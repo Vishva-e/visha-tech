@@ -30,7 +30,7 @@ test('Modern storefront look exposes working guide search and honest editorial p
   assert.match(home,/guide-grid/);
   assert.match(home,/No invented hands-on tests or undisclosed paid placements/);
   assert.match(header,/aria-controls="mobile-navigation"/);
-  assert.match(header,/Visha <strong>Shops<\/strong>/);
+  assert.match(header,/Visha <strong>Shop<\/strong>/);
   assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
   assert.match(css,/@media\(max-width:620px\)/);
   assert.match(read('src/layouts/BaseLayout.astro'),/modern\.css/);
