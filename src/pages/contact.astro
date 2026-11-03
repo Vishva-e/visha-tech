@@ -9,7 +9,7 @@ const contactEnabled=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail) && contactE
     <span class="eyebrow">Get in touch</span><h1>Contact us</h1>
     <p class="intro">We welcome product-guide feedback, corrections and helpful suggestions.</p>
     {contactEnabled
-      ? <div class="notice"><strong>Editorial contact:</strong> <a href={`mailto:${contactEmail}?subject=Visha%20Tech%20Picks%20Editorial%20Feedback`}>{contactEmail}</a></div>
+      ? <div class="notice"><strong>Editorial contact:</strong> <a href={`mailto:${contactEmail}?subject=Visha%20Shops%20Editorial%20Feedback`}>{contactEmail}</a></div>
       : <div class="notice"><strong>Contact channel pending:</strong> The owner has not approved a public email address. Please do not send personal information through unverified channels.</div>
     }
     <h2>Corrections and suggestions</h2>
