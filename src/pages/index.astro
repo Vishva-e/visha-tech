@@ -6,19 +6,66 @@ import { getCollection } from 'astro:content';
 const guides = (await getCollection('guides', ({data}) => !data.draft)).sort((a,b) => b.data.updatedAt.getTime()-a.data.updatedAt.getTime());
 const featured = [...guides].sort((a,b) => Number(b.data.featured)-Number(a.data.featured)).slice(0,3);
 ---
-<BaseLayout title="Home" description="Straightforward technology buying guides for Indian students, developers, and professionals. Compare meaningful features and choose confidently.">
-  <section class="hero"><div class="shell hero-grid">
-    <div class="hero-copy">
-      <span class="eyebrow eyebrow-pill">✦ Independent Tech Buying Guides</span>
-      <h1>Good tech.<br /><span>Better decisions.</span></h1>
-      <p>Skip the jargon and discover practical buying advice for laptops, coding accessories, and everyday tech. Clear recommendations, real trade-offs, zero hype.</p>
-      <div class="hero-buttons"><a href="/guides/" class="btn btn-primary">Explore buying guides <span aria-hidden="true">↗</span></a><a href="/product-finder/" class="btn btn-secondary">Find your criteria <span aria-hidden="true">→</span></a></div>
-      <div class="trust-note"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 12 4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg> Editorial-first advice · Made for Indian buyers</div>
+<BaseLayout title="Home" description="Discover smarter tech shopping with Visha Shops. Explore independent laptop, developer gear, audio and storage buying guides, comparisons and practical product advice.">
+  <section class="hero hero-shop">
+    <div class="shell hero-grid">
+      <div class="hero-copy">
+        <span class="hero-kicker"><span class="hero-kicker-dot"></span> YOUR GUIDE TO BETTER TECH</span>
+        <h1>Find tech that <span>fits your life.</span></h1>
+        <p>Less scrolling, less second-guessing. Discover smart buying guides, useful comparisons and the gear that makes sense for <em>you</em>.</p>
+        <form class="hero-search" action="/guides/" method="get" role="search">
+          <label for="homepage-search" class="visually-hidden">Search buying guides</label>
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 5 5" stroke-linecap="round"></path></svg>
+          <input id="homepage-search" name="q" type="search" placeholder="Search laptops, RAM, SSDs, headphones…" autocomplete="off" />
+          <button type="submit">Search <span aria-hidden="true">↗</span></button>
+        </form>
+        <div class="hero-buttons">
+          <a class="btn btn-primary" href="/guides/">Explore the guides <span aria-hidden="true">↗</span></a>
+          <a class="btn btn-secondary" href="/product-finder/">Find my tech fit <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="hero-proof"><span><span class="proof-icon">✓</span> Research-backed insights</span><span><span class="proof-icon">✓</span> Built for Indian buyers</span></div>
+      </div>
+      <div class="hero-showcase" aria-hidden="true">
+        <div class="showcase-aura"></div>
+        <div class="showcase-primary">
+          <div class="showcase-overline"><span class="showcase-diamond">✳</span> THE VISHA EDIT <span class="showcase-year">2026</span></div>
+          <div class="showcase-art">
+            <div class="showcase-halo"></div>
+            <div class="showcase-laptop">
+              <div class="showcase-laptop-screen"><div class="showcase-screen-top"><i></i><i></i><i></i></div><div class="showcase-screen-content"><div class="showcase-screen-big"></div><div class="showcase-screen-line"></div><div class="showcase-screen-line short"></div></div></div>
+              <div class="showcase-laptop-base"></div>
+            </div>
+          </div>
+          <div class="showcase-caption"><span>01 / TECH ESSENTIALS</span><strong>Made for the way you work.</strong><p>Discover the upgrades worth considering.</p></div>
+        </div>
+        <div class="showcase-mini showcase-mini-top"><span class="showcase-mini-icon">⌨️</span><span><strong>Everyday essentials</strong><small>Keyboards, gear &amp; more</small></span></div>
+        <div class="showcase-mini showcase-mini-bottom"><span class="showcase-mini-icon">✨</span><span><strong>Smart decisions</strong><small>Know what matters</small></span></div>
+        <span class="showcase-spark showcase-spark-one">✦</span><span class="showcase-spark showcase-spark-two">✧</span>
+      </div>
     </div>
-    <div class="hero-graphic" aria-hidden="true"><div class="orb"></div><div class="float-chip chip-top"><span>✧</span> Practical, not promotional</div><div class="laptop-art"><div class="laptop-screen"><div class="screen-content"><div class="screen-top"><i></i><b></b></div><div class="screen-main"><div class="screen-card"><div class="icon">💻</div><div class="screen-bar"></div></div><div class="screen-side"><div class="screen-bar short"></div><div class="screen-bar"></div><div class="screen-bar" style="width:79%"></div><div class="screen-bar" style="width:52%;background:#e2eaf8"></div></div></div></div></div><div class="laptop-base"></div></div><div class="float-chip chip-bottom"><span>✓</span> Transparent research</div></div>
-  </div></section>
-  <section class="section section-white"><div class="shell"><div class="section-heading"><div><span class="eyebrow">Browse by interest</span><h2>Find your next upgrade</h2><p>Start with a category and focus on the features that matter to you.</p></div><a class="text-link" href="/guides/">All guides ↗</a></div><div class="category-grid">{categories.map(category => <a class="category-card" href={`/categories/${category.slug}/`}><span class="category-icon" aria-hidden="true">{category.icon}</span><div><h3>{category.name}</h3><p>{category.summary}</p></div><span class="category-arrow" aria-hidden="true">↗</span></a>)}</div></div></section>
-  <section class="section"><div class="shell"><div class="section-heading"><div><span class="eyebrow">Fresh perspectives</span><h2>Guides worth your time</h2><p>Our first editorial guides, written to help you think through buying decisions.</p></div><a class="text-link" href="/guides/">View all articles ↗</a></div><div class="guide-grid">{featured.map(guide => <GuideCard guide={guide} />)}</div></div></section>
-  <section class="section section-white"><div class="shell"><div class="section-heading"><div><span class="eyebrow">Compare wisely</span><h2>Understand the trade-offs</h2><p>Explore side-by-side, evidence-led hardware comparisons without fake price tags.</p></div><a class="text-link" href="/comparisons/">Open comparison tool ↗</a></div><div class="guide-grid"><a class="category-card" href="/comparisons/?topic=ram"><span class="category-icon">🧠</span><div><h3>16 GB vs 32 GB RAM</h3><p>Match memory to your development workload.</p></div></a><a class="category-card" href="/comparisons/?topic=storage"><span class="category-icon">💾</span><div><h3>Internal vs external SSD</h3><p>Storage and backups explained.</p></div></a><a class="category-card" href="/comparisons/?topic=audio"><span class="category-icon">🎧</span><div><h3>Wired vs wireless audio</h3><p>Better meetings and calls.</p></div></a></div></div></section>
-  <section class="section-commitment"><div class="shell"><div class="commitment"><div><span class="eyebrow">Our editorial promise</span><h2>Advice that puts you first.</h2><p>No invented hands-on tests. No disguised affiliate relationships. We explain what we know, how we researched it and what might not suit you.</p><a href="/editorial-policy/">Read our editorial standards ↗</a></div><div class="promise-points"><span><b>01</b> Clear pros and trade-offs</span><span><b>02</b> Research methods disclosed</span><span><b>03</b> Recommendations reviewed over time</span></div></div></div></section>
+  </section>
+  <div class="trust-bar"><div class="shell trust-bar-inner"><span><strong>10</strong> in-depth guides</span><span class="trust-divider" aria-hidden="true"></span><span>Independent research</span><span class="trust-divider" aria-hidden="true"></span><span>No invented prices or reviews</span><span class="trust-divider" aria-hidden="true"></span><span>Made for India <span aria-hidden="true">✳</span></span></div></div>
+  <section class="section section-categories section-white">
+    <div class="shell">
+      <div class="section-heading"><div><span class="eyebrow">SHOP BY INTEREST</span><h2>What's on your radar?</h2><p>From your next laptop to the little upgrades that make a big difference.</p></div><a class="text-link" href="/guides/">Explore all guides <span aria-hidden="true">↗</span></a></div>
+      <div class="category-grid">{categories.map((category, index) => <a class="category-card" href={'/categories/' + category.slug + '/'}><span class="category-card-top"><span class="category-number">{String(index+1).padStart(2,'0')}</span><span class="category-arrow" aria-hidden="true">↗</span></span><span class="category-icon" aria-hidden="true">{category.icon}</span><span class="category-card-content"><h3>{category.name}</h3><p>{category.summary}</p></span></a>)}</div>
+    </div>
+  </section>
+  <section class="section section-guides">
+    <div class="shell">
+      <div class="section-heading"><div><span class="eyebrow">THE GOOD STUFF</span><h2>Worth a closer look.</h2><p>Thoughtful, transparent buying guides to help you decide with confidence.</p></div><a class="text-link" href="/guides/">All buying guides <span aria-hidden="true">↗</span></a></div>
+      <div class="guide-grid">{featured.map(guide => <GuideCard guide={guide} />)}</div>
+    </div>
+  </section>
+  <section class="section section-white section-compare">
+    <div class="shell compare-layout">
+      <div class="compare-intro"><span class="eyebrow">DECISIONS, MADE SIMPLE</span><h2>Compare before<br/><span>you commit.</span></h2><p>Real-world trade-offs, side by side. Because the better choice depends on how you actually use your tech.</p><a href="/comparisons/" class="btn btn-primary">Explore comparisons <span aria-hidden="true">↗</span></a></div>
+      <div class="compare-cards">
+        <a href="/comparisons/?topic=ram" class="compare-tile"><span class="compare-symbol">🧠</span><span><strong>16 GB vs 32 GB RAM</strong><small>Find your ideal memory setup</small></span><span class="compare-tile-arrow" aria-hidden="true">↗</span></a>
+        <a href="/comparisons/?topic=storage" class="compare-tile"><span class="compare-symbol">💾</span><span><strong>Internal vs external SSD</strong><small>Speed, convenience &amp; value</small></span><span class="compare-tile-arrow" aria-hidden="true">↗</span></a>
+        <a href="/comparisons/?topic=audio" class="compare-tile"><span class="compare-symbol">🎧</span><span><strong>Wired vs wireless audio</strong><small>Better listening and calls</small></span><span class="compare-tile-arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+  <section class="section-commitment"><div class="shell"><div class="commitment"><div><span class="eyebrow">THE VISHA WAY</span><h2>Helpful advice.<br/>No unnecessary hype.</h2><p>We focus on specifications, practical use and real limitations. No invented hands-on tests or undisclosed paid placements — just a clearer path to your next tech decision.</p><a href="/editorial-policy/">Read our editorial promise <span aria-hidden="true">↗</span></a></div><div class="promise-points"><span><b>01</b> Real pros and trade-offs</span><span><b>02</b> Transparent research methods</span><span><b>03</b> Your needs come first</span></div></div></div></section>
 </BaseLayout>
