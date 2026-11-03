@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 /** @param {string} path */
 const read=(path)=>readFileSync(path,'utf8');
 
-test('Visha Shops is the only active site brand in public views and metadata',()=>{
+test('Visha Shop is the only active site brand in public views and metadata',()=>{
   for(const path of [
     'src/data/site.ts','src/layouts/BaseLayout.astro','src/components/Header.astro','src/components/Footer.astro',
     'src/pages/index.astro','src/pages/about.astro','src/pages/contact.astro',
@@ -12,11 +12,11 @@ test('Visha Shops is the only active site brand in public views and metadata',()
     'src/pages/guides/[slug].astro','src/pages/404.astro'
   ]){
     const code=read(path);
-    assert.doesNotMatch(code,/Visha Tech Picks/i,path+' must not retain old branding');
+    assert.doesNotMatch(code,/Visha Tech Picks|Visha Shops/i,path+' must not retain old branding');
   }
-  assert.match(read('src/data/site.ts'),/name: 'Visha Shops'/);
-  assert.match(read('src/layouts/BaseLayout.astro'),/Visha Shops — Find Better Tech/);
-  assert.match(read('src/pages/contact.astro'),/Visha%20Shops%20Editorial/);
+  assert.match(read('src/data/site.ts'),/name: 'Visha Shop'/);
+  assert.ok(read('src/layouts/BaseLayout.astro').includes("title === 'Home' ? 'Visha Shop'"));
+  assert.match(read('src/pages/contact.astro'),/Visha%20Shop%20Editorial/);
 });
 
 test('Modern storefront look exposes working guide search and honest editorial promise',()=>{
@@ -30,7 +30,7 @@ test('Modern storefront look exposes working guide search and honest editorial p
   assert.match(home,/guide-grid/);
   assert.match(home,/No invented hands-on tests or undisclosed paid placements/);
   assert.match(header,/aria-controls="mobile-navigation"/);
-  assert.match(header,/Visha <strong>Shops<\/strong>/);
+  assert.match(header,/Visha <strong>Shop<\/strong>/);
   assert.match(css,/@media\(prefers-reduced-motion:reduce\)/);
   assert.match(css,/@media\(max-width:620px\)/);
   assert.match(read('src/layouts/BaseLayout.astro'),/modern\.css/);

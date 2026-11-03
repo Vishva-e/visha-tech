@@ -1,8 +1,7 @@
 export const brand = {
-  name: 'Visha Shops',
-  tagline: 'Find Better Tech. Shop Smarter.',
+  name: 'Visha Shop',
   youtube: 'https://youtube.com/@lifeandlaughsofficial',
-  copyrightOwner: 'Visha Shops',
+  copyrightOwner: 'Visha Shop',
 };
 export const categories = [
   {slug:'laptops', name:'Laptops', icon:'💻', summary:'Pick a machine that stays fast beyond the spec sheet.'},
