@@ -15,7 +15,7 @@ const related = (await getCollection('guides',({data}) => !data.draft && data.ca
 ---
 <BaseLayout title={guide.data.title} description={guide.data.description} kind="article">
   <article>
-    <header class="article-head content-container" style="padding-bottom:0"><a class="eyebrow" href={`/categories/${guide.data.category}/`}>{category?.name ?? 'Technology'}</a><h1>{guide.data.title}</h1><p class="article-lede">{guide.data.description}</p><div class="article-meta">By Visha Tech Picks Editorial · Updated {formatDate(guide.data.updatedAt)} · {guide.data.readMinutes} min read</div></header>
+    <header class="article-head content-container" style="padding-bottom:0"><a class="eyebrow" href={`/categories/${guide.data.category}/`}>{category?.name ?? 'Technology'}</a><h1>{guide.data.title}</h1><p class="article-lede">{guide.data.description}</p><div class="article-meta">By Visha Shops Editorial · Updated {formatDate(guide.data.updatedAt)} · {guide.data.readMinutes} min read</div></header>
     <div class="content-container">
       <div class="notice"><strong>Research transparency:</strong> This guide is based on {guide.data.reviewType === 'hands-on' ? 'documented hands-on testing' : 'editorial desk research and practical engineering considerations'}, not a claim that we have personally tested every product. We do not currently display live Amazon prices or referral links.</div>
       <div class="prose"><Content /></div>
