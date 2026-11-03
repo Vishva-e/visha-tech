@@ -15,7 +15,7 @@ test('Visha Shop is the only active site brand in public views and metadata',()=
     assert.doesNotMatch(code,/Visha Tech Picks|Visha Shops/i,path+' must not retain old branding');
   }
   assert.match(read('src/data/site.ts'),/name: 'Visha Shop'/);
-  assert.match(read('src/layouts/BaseLayout.astro'),/title === 'Home' \\? 'Visha Shop'/);
+  assert.ok(read('src/layouts/BaseLayout.astro').includes("title === 'Home' ? 'Visha Shop'"));
   assert.match(read('src/pages/contact.astro'),/Visha%20Shop%20Editorial/);
 });
 
