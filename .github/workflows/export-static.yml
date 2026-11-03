@@ -1,0 +1,37 @@
+name: Export Visha Shop static upload package
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Verify and build exactly noindex Visha Shop
+        env:
+          PUBLIC_SITE_LIVE: 'false'
+          PUBLIC_AMAZON_ASSOCIATE_ACTIVE: 'false'
+          RELEASE_MODE: editorial
+        run: npm run check && npm test && npm run build && npm run audit:build
+      - name: Verify homepage identity
+        run: |
+          grep -q '<title>Visha Shop</title>' dist/index.html
+          grep -q 'noindex,nofollow,noarchive' dist/index.html
+          grep -q 'Disallow: /' dist/robots.txt
+          test -f dist/_headers
+      - name: Export exact static Pages upload ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: visha-shop-cloudflare-direct-upload
+          path: dist/
+          if-no-files-found: error
+          compression-level: 6
+          retention-days: 7
