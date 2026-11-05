@@ -14,7 +14,7 @@ const { path } = Astro.props;
       {navigation.map(item => <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>)}
     </nav>
     <div class="nav-actions">
-      <a class="header-cta" href="/product-finder/">Find your fit <span aria-hidden="true">↗</span></a>
+      <a class="header-cta" href="/shop/">Explore shop <span aria-hidden="true">↗</span></a>
       <a class="nav-search" href="/guides/" aria-label="Search buying guides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5" stroke-linecap="round"/></svg></a>
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-navigation">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
