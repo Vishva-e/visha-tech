@@ -1,0 +1,17 @@
+---
+interface Props { slug: string }
+const { slug } = Astro.props;
+---
+<span class="visha-line-art" aria-hidden="true">
+  {slug === 'laptops' && <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"><rect x="14" y="17" width="44" height="32" rx="3"/><path d="M9 53h54l-5 5H14z"/><path d="M30 53h12"/></svg>}
+  {slug === 'developer-gear' && <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="10" y="23" width="52" height="28" rx="5"/><path d="M18 30h4m5 0h4m5 0h4m5 0h4m5 0h4M18 37h4m5 0h4m5 0h4m5 0h4m5 0h4M25 44h22" stroke-linecap="round"/></svg>}
+  {slug === 'smartphones' && <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round"><rect x="23" y="9" width="26" height="54" rx="6"/><path d="M31 15h10M33 57h6"/></svg>}
+  {slug === 'audio' && <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 39v-5c0-13 8-22 19-22s19 9 19 22v5"/><rect x="12" y="34" width="11" height="25" rx="5"/><rect x="49" y="34" width="11" height="25" rx="5"/></svg>}
+  {slug === 'storage' && <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round"><rect x="15" y="21" width="42" height="32" rx="6"/><path d="M23 31h26M23 39h14" stroke-linecap="round"/><circle cx="48" cy="44" r="2.2" fill="currentColor" stroke="none"/></svg>}
+  {slug === 'work-from-home' && <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="15" width="44" height="31" rx="3"/><path d="M36 46v10m-13 0h26M10 61h52"/></svg>}
+  {!['laptops','developer-gear','smartphones','audio','storage','work-from-home'].includes(slug) && <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="19" y="17" width="34" height="39" rx="5"/><path d="M26 27h20M26 35h20M26 43h12"/></svg>}
+</span>
+<style>
+  .visha-line-art{width:100%;height:100%;display:grid;place-items:center;color:#3f464f}
+  .visha-line-art svg{width:78%;height:78%;max-width:96px;max-height:96px;display:block}
+</style>
