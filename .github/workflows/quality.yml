@@ -17,3 +17,5 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Check, test, build and audit
         run: npm run validate
+      - name: Check Cloudflare static-assets packaging (no deploy)
+        run: npm run cloudflare:check
