@@ -1,0 +1,176 @@
+/*
+ * Visha Shop — Apple-inspired editorial visual system.
+ * Original design: quiet typography, monochrome surfaces, spacious layouts.
+ * No Apple logos, assets, or trade dress are used.
+ */
+:root {
+  --bg:#f5f5f7;
+  --surface:#fff;
+  --ink:#1d1d1f;
+  --text:#424245;
+  --muted:#6e6e73;
+  --blue:#0066cc;
+  --blue-dark:#004f9c;
+  --line:#dedee3;
+  --radius:24px;
+  --shadow:0 18px 54px rgba(0,0,0,.045);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+}
+html{scroll-padding-top:80px}
+body{background:var(--bg);color:var(--ink);letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+::selection{background:#c7defb;color:#172c46}
+.shell{max-width:1250px;padding-inline:clamp(20px,4vw,54px)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #0071e3;outline-offset:4px}
+.site-header{position:sticky;top:0;z-index:90;background:rgba(251,251,253,.83);border-bottom:1px solid rgba(20,20,25,.09);backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px)}
+.utility-bar{display:none}
+.header-inner{height:62px}
+.brand-mark{border-radius:11px;width:34px;height:34px;background:#1d1d1f;box-shadow:none}
+.brand-mark svg{width:19px}
+.brand-title{font-size:17px;font-weight:650;letter-spacing:-.6px}
+.brand-title strong{color:var(--ink)}
+.desktop-nav{gap:clamp(12px,2vw,30px)}
+.desktop-nav a{font-size:12px;letter-spacing:0;font-weight:500;color:#4d4d50}
+.desktop-nav a:hover,.desktop-nav a[aria-current="page"]{color:#0066cc}
+.header-cta{background:#0071e3!important;color:#fff!important;border-radius:999px!important;border:0!important;box-shadow:none!important;padding:9px 16px!important;font-size:12px!important}
+.nav-search,.menu-toggle{border:0;background:transparent;border-radius:99px}
+.mobile-nav{background:rgba(251,251,253,.98)}
+.mobile-nav a{font-weight:600}
+.eyebrow,.hero-kicker{color:#6e6e73;letter-spacing:.08em;font-size:11px;font-weight:700}
+.hero-shop{padding:100px 0 94px;background:linear-gradient(180deg,#fbfbfd 0%,#f5f5f7 80%,#f5f5f7 100%);border-bottom:0}
+.hero-shop .hero-grid{grid-template-columns:minmax(0,1fr);gap:55px;text-align:center;min-height:0}
+.hero-shop .hero-copy{max-width:930px;margin:0 auto}
+.hero-kicker{border:0;background:transparent;box-shadow:none;color:#6e6e73;padding:0}
+.hero-kicker-dot{background:#0071e3;box-shadow:0 0 0 3px #0071e31a}
+.hero-shop h1{font-size:clamp(53px,7.8vw,106px);line-height:1.035;letter-spacing:-.065em;font-weight:750;max-width:100%;margin:25px auto}
+.hero-shop h1 span{color:#6e6e73;background:none;-webkit-text-fill-color:currentColor}
+.hero-shop .hero-copy>p{font-size:clamp(18px,2.1vw,25px);line-height:1.48;color:#6e6e73;max-width:750px;margin:0 auto;font-weight:420}
+.hero-shop .hero-copy>p em{color:var(--ink);font-weight:600}
+.hero-search{max-width:600px;margin:34px auto 20px;border:1px solid #dedee3;border-radius:999px;padding:6px 6px 6px 20px;box-shadow:0 8px 30px #0000000a;background:#fff;text-align:left}
+.hero-search:focus-within{outline:2px solid #0071e3;outline-offset:3px}
+.hero-search input{font-size:14px}
+.hero-search button{border-radius:999px;background:#0071e3;min-height:45px;font-weight:600;font-size:13px}
+.hero-search button:hover{background:#005bb5}
+.hero-shop .hero-buttons{justify-content:center;gap:15px;margin-top:14px}
+.btn{border-radius:999px;font-size:14px;font-weight:600;padding:12px 22px;box-shadow:none}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:#0071e3;box-shadow:none}
+.btn-primary:hover{background:#005bb5}
+.btn-secondary{background:transparent;border:1px solid #c6c6cc;color:#1d1d1f}
+.hero-proof{justify-content:center;color:#7c7c80;font-size:12px;margin-top:24px}
+.proof-icon{background:#e8f2fd;color:#0066cc}
+.hero-showcase{min-height:440px;max-width:850px;width:100%;margin:0 auto}
+.showcase-aura{inset:10px 6% 0;background:radial-gradient(ellipse at 50% 25%,#e8e9ee 0%,#f5f5f7 70%);border-radius:50%;filter:blur(15px);transform:none}
+.showcase-primary{transform:none;width:min(70%,550px);min-height:420px;border-radius:30px;background:#fff;border:1px solid #e6e6ea;box-shadow:0 25px 75px #00000016}
+.showcase-art{background:linear-gradient(145deg,#e5e8ee,#f8f8fa);border-radius:20px}
+.showcase-halo{box-shadow:0 0 0 27px #e4e7ed7a,0 0 0 56px #e5e8ed60;border-color:#c9cbd1}
+.showcase-overline,.showcase-caption span{color:#6e6e73}
+.showcase-diamond,.showcase-spark{color:#96969d}
+.showcase-screen-big{background:#a1a8b5}
+.showcase-mini{transform:none;border-color:#e7e7eb;box-shadow:0 14px 35px #00000013;border-radius:18px}
+.showcase-mini-bottom{transform:none}
+.showcase-mini-icon{background:#f1f1f3}
+.trust-bar{background:#f5f5f7;border:0}
+.trust-bar-inner{max-width:1050px;justify-content:center;gap:24px;min-height:65px;color:#77777c;font-weight:500}
+.trust-bar-inner strong{color:#1d1d1f}
+.trust-divider{background:#d4d4d9}
+.section{padding-block:100px}
+.section-white{background:#fff;border-color:#f0f0f2}
+.section-guides{background:#f5f5f7}
+.section-heading{margin-bottom:42px}
+.section-heading h2{font-size:clamp(39px,4.6vw,61px);font-weight:730;letter-spacing:-.05em;line-height:1.08;color:var(--ink)}
+.section-heading p{font-size:16px;line-height:1.6;color:var(--muted)}
+.section-heading .eyebrow{color:#6e6e73;font-weight:600;letter-spacing:.1em}
+.text-link{font-size:14px;color:#0066cc;font-weight:600}
+.category-grid{gap:20px}
+.category-card{min-height:250px;padding:28px;border:1px solid #ededf0;border-radius:26px;background:#f5f5f7;box-shadow:none;transition:transform .25s ease,box-shadow .25s ease}
+.category-card:after{background:#e8e8ed;opacity:.45}
+.category-card:hover{transform:translateY(-4px);border-color:#e5e5e9;box-shadow:0 16px 35px #00000009}
+.category-number{color:#99999f}
+.category-arrow{background:#fff;color:#0066cc}
+.category-icon{background:#fff;border-radius:19px}
+.category-card h3{font-weight:690;font-size:21px;letter-spacing:-.035em;color:var(--ink)}
+.category-card p{font-size:13px;color:#6e6e73}
+.guide-grid{gap:22px}
+.guide-card{border:1px solid #ededf0;border-radius:26px;box-shadow:none;overflow:hidden;background:#fff}
+.guide-card:hover{box-shadow:0 20px 55px #0000000c;transform:translateY(-4px)}
+.guide-image{height:200px;background:linear-gradient(150deg,#e7e9ee,#f6f7f9);border-bottom:0}
+.guide-image-watermark{color:#808088}
+.guide-info{padding:28px}
+.guide-card h3{font-size:23px;font-weight:700;letter-spacing:-.04em;line-height:1.24}
+.guide-info p{color:#6e6e73}
+.guide-bottom a{color:#0066cc}
+.compare-intro h2{font-size:clamp(42px,5vw,65px);letter-spacing:-.055em;font-weight:720}
+.compare-intro h2 span{color:#85858a}
+.compare-intro p{color:#6e6e73;font-size:16px}
+.compare-tile{background:#f5f5f7;border-color:transparent;border-radius:22px;padding:22px}
+.compare-tile:hover{background:#ececef;border-color:transparent;transform:translateX(2px)}
+.compare-symbol{background:#fff}
+.compare-tile strong{color:var(--ink);font-size:16px}
+.compare-tile-arrow{color:#0066cc}
+.section-commitment{background:#f5f5f7}
+.commitment{background:linear-gradient(130deg,#202024,#34343a);box-shadow:none;border-radius:30px}
+.commitment .eyebrow{color:#c2c2c8}
+.commitment h2{font-weight:680;letter-spacing:-.05em}
+.commitment .promise-points span{background:#ffffff14}
+.site-footer{background:#f5f5f7;color:#424245;border-top:1px solid #e7e7eb}
+.footer-banner{background:#fff;border:1px solid #e8e8eb;box-shadow:0 10px 35px #00000007;border-radius:26px;color:#1d1d1f}
+.footer-banner .eyebrow{color:#6e6e73}
+.footer-banner p{color:#6e6e73}
+.footer-brand p,.footer-links a,.footer-bottom{color:#6e6e73}
+.footer-brand .brand-title,.footer-links h2{color:#1d1d1f}
+.footer-brand .brand-title strong{color:#1d1d1f}
+.footer-links a:hover{color:#0066cc}
+.footer-bottom{border-color:#dcdce0}
+.page-heading h1{font-weight:730;letter-spacing:-.055em}
+.prose{color:#424245}
+.prose h2,.prose h3{color:#1d1d1f;letter-spacing:-.035em}
+.shop-hero{background:#fbfbfd;border-color:#ececf0}
+.shop-hero h1{font-weight:730;letter-spacing:-.055em}
+.shop-hero-panel,.shop-product-card{border:1px solid #e7e7eb;box-shadow:none;border-radius:26px}
+.shop-hero-panel-label{color:#6e6e73}
+.shop-product-visual{background:linear-gradient(145deg,#e9eaee,#f6f6f7)}
+.shop-product-meta span{background:#f5f5f7;color:#66666c;border-color:#e5e5e9}
+.shop-disclosure{background:#f5f5f7}
+.shop-disclosure-inner{background:#fff;border-color:#e9e9ed}
+@media(max-width:900px){
+  .hero-shop{padding:72px 0 60px}
+  .hero-shop .hero-grid{gap:25px}
+  .hero-showcase{margin:15px auto 0;max-width:650px}
+  .section{padding-block:76px}
+}
+@media(max-width:620px){
+  .header-inner{height:60px}
+  .hero-shop{padding:60px 0 44px}
+  .hero-shop h1{font-size:clamp(47px,12vw,72px);letter-spacing:-.062em;margin:20px 0}
+  .hero-shop .hero-copy>p{font-size:18px;line-height:1.52}
+  .hero-search{padding:6px 6px 6px 14px}
+  .hero-search input{font-size:12px}
+  .hero-search button{padding:0 13px}
+  .hero-showcase{min-height:330px}
+  .showcase-primary{width:77%;min-height:310px;padding:12px}
+  .showcase-mini{min-width:130px}
+  .section{padding-block:62px}
+  .section-heading h2{font-size:38px}
+  .category-grid,.guide-grid{grid-template-columns:1fr}
+  .trust-bar-inner{gap:11px}
+  .category-card{min-height:210px}
+  .footer-banner{padding:24px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.category-card,.guide-card,.compare-tile{transition:none!important;transform:none!important}}
+
+/* Vector illustrations remain readable, crisp and neutral at any density. */
+.category-icon .visha-line-art{color:#404047}
+.guide-illustration{width:100px;height:100px;transform:none;filter:none}
+.guide-illustration .visha-line-art{width:100%;height:100%;color:#55565e}
+.guide-image .visha-line-art svg{max-width:100px;max-height:100px}
+.shop-product-symbol svg{display:block;width:clamp(96px,10vw,148px);height:auto;filter:drop-shadow(0 22px 17px rgba(35,42,52,.14))}
+.shop-product-symbol{display:grid;place-items:center}
+.hero-shop .showcase-mini-icon{font-size:24px;font-weight:480;color:#53565c}
+.guide-card:focus-within,.category-card:focus-within{outline:2px solid #0071e3;outline-offset:4px}
+@media(prefers-reduced-motion:no-preference){
+  @keyframes visha-fade-rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .hero-shop .hero-copy{animation:visha-fade-rise .7s both}
+  .hero-shop .hero-showcase{animation:visha-fade-rise .8s .12s both}
+}

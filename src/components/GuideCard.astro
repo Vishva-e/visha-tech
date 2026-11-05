@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import CategoryArtwork from './CategoryArtwork.astro';
 import { categoryBySlug, formatDate } from '../data/site';
 interface Props { guide: CollectionEntry<'guides'>; prominent?: boolean }
 const { guide, prominent = false } = Astro.props;
@@ -7,7 +8,7 @@ const category = categoryBySlug(guide.data.category);
 ---
 <article class:list={['guide-card', { 'guide-card-prominent': prominent }]}>
   <a class="guide-image" href={`/guides/${guide.id}/`} tabindex="-1" aria-hidden="true">
-    <span class="guide-illustration" aria-hidden="true">{category?.icon ?? '📘'}</span>
+    <span class="guide-illustration" aria-hidden="true"><CategoryArtwork slug={guide.data.category} /></span>
     <span class="guide-image-watermark" aria-hidden="true">{guide.data.category.replaceAll('-',' ')}</span>
   </a>
   <div class="guide-info">
