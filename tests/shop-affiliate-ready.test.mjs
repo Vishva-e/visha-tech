@@ -2,6 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {approvedAffiliateLink} from '../src/lib/affiliate-link-gate.mjs';
+/** @param {string} path */
 const content=path=>readFileSync(path,'utf8');
 const approvedEnv={
   PUBLIC_AMAZON_ASSOCIATE_ACTIVE:'true',AMAZON_SITE_REGISTERED:'true',
