@@ -21,6 +21,7 @@ export function approvedAffiliateLink(candidate, env) {
     site=new URL(env.SITE_URL ?? '');
     approved=new URL(env.AMAZON_APPROVED_SITE_URL ?? '');
   } catch { return null; }
+  /** @param {URL} u */
   const validOrigin = (u) => u.protocol==='https:' && !!u.hostname &&
     !u.username && !u.password && !u.port && u.pathname==='/' && !u.search && !u.hash;
   if (!validOrigin(site) || !validOrigin(approved) || site.origin!==approved.origin) return null;
