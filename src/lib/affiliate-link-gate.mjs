@@ -1,4 +1,5 @@
 import { validateAmazonLink } from '../../scripts/amazon-link-policy.mjs';
+import { ownerProvidedTrackingId } from '../config/amazon-associates.mjs';
 
 /**
  * Fail-closed Amazon India affiliate link publishing gate for pre-approved
@@ -11,11 +12,13 @@ import { validateAmazonLink } from '../../scripts/amazon-link-policy.mjs';
  */
 export function approvedAffiliateLink(candidate, env) {
   if (!candidate || candidate.reviewed !== true || candidate.status !== 'approved') return null;
-  if (env.PUBLIC_AMAZON_ASSOCIATE_ACTIVE !== 'true' ||
+  if (env.AMAZON_ACCOUNT_VERIFIED !== 'true' ||
+      env.PUBLIC_AMAZON_ASSOCIATE_ACTIVE !== 'true' ||
       env.AMAZON_SITE_REGISTERED !== 'true' ||
       env.AMAZON_LINKS_EDITORIALLY_APPROVED !== 'true') return null;
   const expectedTag=env.AMAZON_ASSOCIATE_TAG?.trim();
-  if (!expectedTag || !/^[a-z0-9][a-z0-9_-]{1,40}-21$/i.test(expectedTag)) return null;
+  if (!expectedTag || expectedTag !== ownerProvidedTrackingId ||
+      !/^[a-z0-9][a-z0-9_-]{1,40}-21$/i.test(expectedTag)) return null;
   let site,approved;
   try {
     site=new URL(env.SITE_URL ?? '');

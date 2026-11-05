@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 /**
- * Visha Tech Picks — local, manual-review Amazon link intake.
+ * Visha Shop — local, manual-review Amazon link intake.
  * No browser automation, account login, scraping, API credentials or publication.
  * Amazon links must be manually obtained by the account owner from SiteStripe.
  */
 import { randomUUID } from 'node:crypto';
 import { validateAmazonLink } from './amazon-link-policy.mjs';
+import { ownerProvidedTrackingId } from '../src/config/amazon-associates.mjs';
 export { validateAmazonLink } from './amazon-link-policy.mjs';
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 
-const HELP = `Visha Tech Picks • Amazon review-queue agent
+const HELP = `Visha Shop • Amazon review-queue agent
   npm run agent:amazon -- queue --title "Product title" --url "https://www.amazon.in/dp/XXXXXXXXXX?tag=YOURTAG-21" --category laptops --summary "Original editor note"
   npm run agent:amazon -- list
 Accepted: direct amazon.in product links containing your Amazon tracking tag.
@@ -50,6 +51,9 @@ async function main() {
     if (!summary || summary.length < 15 || summary.length > 800) throw new Error('Add a 15–800 character original editorial note.');
     if (!/^[a-z][a-z0-9-]{1,40}$/.test(category ?? '')) throw new Error('Invalid category slug.');
     const parsed = validateAmazonLink(flags.url ?? '');
+    if (parsed.trackingId !== ownerProvidedTrackingId) {
+      throw new Error('Amazon India link tracking ID does not match the owner-provided Visha Shop ID.');
+    }
     const record = {
       schemaVersion: 1,
       id: randomUUID(),
