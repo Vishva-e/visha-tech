@@ -7,9 +7,11 @@ import { readFileSync, existsSync, statSync } from 'node:fs';
 import { resolve, join } from 'node:path';
 
 const root = resolve(process.cwd());
+/** @type {string[]} */
 const problems = [];
 const configPath = join(root, 'wrangler.jsonc');
 const outputPath = join(root, 'dist');
+/** @param {string} message */
 const fail = message => problems.push(message);
 
 if (!existsSync(configPath)) {
