@@ -33,7 +33,7 @@ test('pre-release website is not indexed and has no automated deploy workflow',(
 test('affiliate disclosure and honest limitations are present',()=>{
   assert.ok(load('src/components/Footer.astro').includes('As an Amazon Associate I earn from qualifying purchases.'));
   assert.ok(load('src/components/Footer.astro').includes('amazonActive ?'), 'Must not claim active status by default');
-  assert.ok(load('src/pages/affiliate-disclosure.astro').includes('no affiliate tracking IDs'));
+  assert.ok(load('src/pages/affiliate-disclosure.astro').includes('no affiliate purchase links are active'));
   assert.ok(load('src/pages/contact.astro').includes('Contact channel pending'));
 });
 test('no deployed production URL or tracking keys are embedded',()=>{
