@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GuideCard from '../components/GuideCard.astro';
+import CategoryArtwork from '../components/CategoryArtwork.astro';
 import { categories } from '../data/site';
 import { getCollection } from 'astro:content';
 const guides = (await getCollection('guides', ({data}) => !data.draft)).sort((a,b) => b.data.updatedAt.getTime()-a.data.updatedAt.getTime());
@@ -48,7 +49,7 @@ const featured = [...guides].sort((a,b) => Number(b.data.featured)-Number(a.data
   <section class="section section-categories section-white">
     <div class="shell">
       <div class="section-heading"><div><span class="eyebrow">SHOP BY INTEREST</span><h2>What's on your radar?</h2><p>From your next laptop to the little upgrades that make a big difference.</p></div><a class="text-link" href="/shop/">Browse all categories <span aria-hidden="true">↗</span></a></div>
-      <div class="category-grid">{categories.map((category, index) => <a class="category-card" href={'/categories/' + category.slug + '/'}><span class="category-card-top"><span class="category-number">{String(index+1).padStart(2,'0')}</span><span class="category-arrow" aria-hidden="true">↗</span></span><span class="category-icon" aria-hidden="true">{category.icon}</span><span class="category-card-content"><h3>{category.name}</h3><p>{category.summary}</p></span></a>)}</div>
+      <div class="category-grid">{categories.map((category, index) => <a class="category-card" href={'/categories/' + category.slug + '/'}><span class="category-card-top"><span class="category-number">{String(index+1).padStart(2,'0')}</span><span class="category-arrow" aria-hidden="true">↗</span></span><span class="category-icon" aria-hidden="true"><CategoryArtwork slug={category.slug} /></span><span class="category-card-content"><h3>{category.name}</h3><p>{category.summary}</p></span></a>)}</div>
     </div>
   </section>
   <section class="section section-guides">
