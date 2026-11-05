@@ -2,16 +2,53 @@
 import { brand } from '../data/site';
 const amazonActive = import.meta.env.PUBLIC_AMAZON_ASSOCIATE_ACTIVE === 'true';
 ---
-<footer class="site-footer">
-  <div class="shell"><div class="footer-banner"><div><span class="eyebrow">THE NEXT MOVE</span><h2>Not sure what to pick?</h2><p>Start with your needs. We\u2019ll help you find the features worth checking.</p></div><a class="btn btn-primary" href="/product-finder/">Try the tech finder <span aria-hidden="true">↗</span></a></div></div>
-  <div class="shell footer-layout">
-    <div class="footer-brand">
-      <a href="/" class="brand footer-logo"><span class="brand-mark" aria-hidden="true">V</span><span class="brand-title">Visha <strong>Shop</strong></span></a>
-      <p>Curated technology guidance, smarter choices and practical advice for everyday life.</p>
-      {amazonActive ? <p class="footer-disclosure">As an Amazon Associate I earn from qualifying purchases.</p> : <p class="footer-disclosure">Affiliate links may be introduced after programme verification. <a href="/affiliate-disclosure/">Read our disclosure</a>.</p>}
+<footer class="site-footer visha-footer">
+  <div class="shell">
+    <div class="visha-footer-feature">
+      <div>
+        <span class="visha-small-label">VISHA SHOP</span>
+        <h2>Choose better. Feel better about it.</h2>
+        <p>A clearer path to your next tech purchase starts with the right questions.</p>
+      </div>
+      <a class="visha-pill-link" href="/product-finder/">Find your next upgrade <span aria-hidden="true">↗</span></a>
     </div>
-    <div class="footer-links"><h2>Explore</h2><a href="/shop/">Shop categories</a><a href="/guides/">All guides</a><a href="/comparisons/">Comparisons</a><a href="/categories/laptops/">Laptops</a><a href="/categories/developer-gear/">Developer gear</a></div>
-    <div class="footer-links"><h2>Information</h2><a href="/about/">About us</a><a href="/editorial-policy/">Editorial policy</a><a href="/affiliate-disclosure/">Affiliate disclosure</a><a href="/privacy/">Privacy</a><a href="/contact/">Contact</a></div>
+    <div class="visha-footer-navigation">
+      <div class="visha-footer-about">
+        <a class="brand" href="/" aria-label="Visha Shop home"><span class="brand-mark" aria-hidden="true">V</span><span class="brand-title">Visha <strong>Shop</strong></span></a>
+        <p>Independent buying guides for people who care about choosing well.</p>
+      </div>
+      <nav aria-label="Shop footer links" class="visha-footer-links">
+        <h3>Explore</h3>
+        <a href="/shop/">Shop categories</a>
+        <a href="/categories/laptops/">Laptops</a>
+        <a href="/categories/developer-gear/">Developer gear</a>
+        <a href="/categories/audio/">Audio</a>
+        <a href="/categories/storage/">Storage</a>
+      </nav>
+      <nav aria-label="Discover footer links" class="visha-footer-links">
+        <h3>Discover</h3>
+        <a href="/guides/">Buying guides</a>
+        <a href="/comparisons/">Comparisons</a>
+        <a href="/product-finder/">Product finder</a>
+        <a href="/guides/how-much-ram-for-developers/">RAM for developers</a>
+      </nav>
+      <nav aria-label="Company and policies" class="visha-footer-links">
+        <h3>About Visha</h3>
+        <a href="/about/">About us</a>
+        <a href="/editorial-policy/">Editorial standards</a>
+        <a href="/affiliate-disclosure/">Affiliate disclosure</a>
+        <a href="/privacy/">Privacy policy</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+    <div class="visha-footer-disclosure">
+      {amazonActive ? <p>As an Amazon Associate I earn from qualifying purchases.</p> : <p>We currently provide editorial research. Affiliate links may be added after programme verification and are subject to clear disclosure.</p>}
+    </div>
+    <div class="visha-footer-bottom">
+      <span>© {new Date().getUTCFullYear()} {brand.copyrightOwner}. All rights reserved.</span>
+      <a href="/privacy/">Privacy</a>
+      <a href="/affiliate-disclosure/">Disclosures</a>
+      <span class="visha-footer-location">Made for India</span>
+    </div>
   </div>
-  <div class="shell footer-bottom"><span>© {new Date().getUTCFullYear()} {brand.copyrightOwner}. All rights reserved.</span><span>Better tech decisions start here.</span></div>
 </footer>
