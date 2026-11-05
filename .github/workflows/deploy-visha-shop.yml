@@ -1,6 +1,12 @@
-name: Deploy Visha Shop Apple-inspired UI (one-time guarded release)
+name: Deploy Visha Shop (guarded production release)
 
 on:
+  workflow_dispatch:
+    inputs:
+      confirm_domain:
+        description: 'Type visha-shop.pages.dev to confirm target'
+        required: true
+        type: string
   create:
   push:
     branches:
@@ -15,10 +21,13 @@ concurrency:
 
 jobs:
   deploy:
-    # New release branch only: this workflow must not deploy on unrelated pushes.
+    # Manual action only from main with exact domain confirmation, or original one-time release creation.
     if: >-
-      github.ref == 'refs/heads/release/visha-shop-apple-ui-20261106' &&
-      (github.event_name == 'create' || (github.event_name == 'push' && github.event.created == true))
+      (github.event_name == 'workflow_dispatch' &&
+       github.ref == 'refs/heads/main' &&
+       github.event.inputs.confirm_domain == 'visha-shop.pages.dev') ||
+      (github.ref == 'refs/heads/release/visha-shop-apple-ui-20261106' &&
+       (github.event_name == 'create' || (github.event_name == 'push' && github.event.created == true)))
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
