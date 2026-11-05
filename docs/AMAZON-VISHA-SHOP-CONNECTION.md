@@ -1,7 +1,8 @@
 # Visha Shop — Amazon Associates India connection handoff
 
 **Live website:** https://visha-shop.pages.dev/ (a publicly accessible, noindex editorial preview)
-**Tracking ID provided by site owner:** `vishvatechgui-21` (format valid, ownership not independently verified).\n**Account connection / site registration:** NOT VERIFIED. No login, approval, earnings, or automatic API access has been confirmed.
+**Tracking ID provided by site owner:** `vishvatechgui-21` (format valid, ownership not independently verified).
+**Account connection / site registration:** NOT VERIFIED. No login, approval, earnings, or automatic API access has been confirmed.
 
 ## Owner action in Amazon Associates Central
 1. Sign in privately at https://affiliate-program.amazon.in/ (do not send passwords, OTPs or Creators API secrets through chat).
