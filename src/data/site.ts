@@ -14,6 +14,7 @@ export const categories = [
 export type CategorySlug = (typeof categories)[number]['slug'];
 export function categoryBySlug(slug: string) { return categories.find((item) => item.slug === slug); }
 export const navigation = [
+  {label:'Shop', href:'/shop/'},
   {label:'Guides', href:'/guides/'},
   {label:'Laptops', href:'/categories/laptops/'},
   {label:'Developer Gear', href:'/categories/developer-gear/'},

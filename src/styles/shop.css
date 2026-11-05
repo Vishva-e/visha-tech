@@ -1,0 +1,19 @@
+
+/* Visha Shop: shopping discovery hub — content only until affiliate approval. */
+.shop-hero{background:radial-gradient(ellipse at 92% 24%,#e4e9ff 0,transparent 55%),linear-gradient(120deg,#f8faff,#f0f4ff);padding:clamp(65px,7vw,100px) 0;border-bottom:1px solid var(--line)}
+.shop-hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,5vw,78px);align-items:center}
+.shop-hero h1{font-size:clamp(39px,4.65vw,64px);line-height:1.11;letter-spacing:-2.7px;max-width:680px;margin:15px 0 22px}
+.shop-hero p{max-width:590px;color:var(--muted);line-height:1.8}
+.shop-hero-panel{background:white;padding:clamp(24px,3vw,42px);border:1px solid #e5eafa;border-radius:26px;box-shadow:0 24px 58px #3c51901e;display:grid;gap:17px}
+.shop-hero-panel-label{color:#5a6cc5;letter-spacing:.16em;font-weight:800;font-size:11px}
+.shop-hero-panel>div{display:flex;gap:15px;align-items:center;border-bottom:1px solid #edf0f8;padding:7px 0 15px;color:#24314e;font-size:14px}
+.shop-hero-panel>div span{color:#4462e4;background:#eff2ff;border-radius:12px;padding:11px;font-weight:850}
+.shop-hero-panel p{font-size:12px;margin:0}
+.shop-featured{background:#f8fafd}
+.shop-disclosure{padding:60px 0 135px;background:#f6f8fc}
+.shop-disclosure-inner{display:flex;align-items:center;justify-content:space-between;gap:40px;padding:37px;border-radius:22px;border:1px solid #dee6f8;background:linear-gradient(135deg,#eff3ff,#fff)}
+.shop-disclosure h2{font-size:clamp(26px,3vw,38px);letter-spacing:-1.1px;margin:8px 0}
+.shop-disclosure p{max-width:650px;line-height:1.75;color:var(--muted);margin-bottom:0}
+.shop-disclosure-inner>.btn{flex:none}
+@media(max-width:800px){.shop-hero-grid{grid-template-columns:1fr}.shop-disclosure-inner{flex-direction:column;align-items:flex-start}.shop-disclosure-inner>.btn{flex:auto}}
+@media(max-width:550px){.shop-hero{padding:50px 0}.shop-hero h1{font-size:40px;letter-spacing:-1.9px}.shop-hero-panel{padding:20px}.shop-disclosure{padding-bottom:120px}.shop-disclosure-inner{padding:23px}}

@@ -1,12 +1,12 @@
-# Amazon Associates India — Visha Tech Picks onboarding (NOT CONNECTED)
+# Amazon Associates India — Visha Shop onboarding (NOT CONNECTED)
 
-**Project state:** private source repository only. There is no public Visha Tech Picks URL yet, and this repository does not have access to the owner's Amazon Associates account.
+**Current status (November 2026):** The publicly accessible editorial preview is https://visha-shop.pages.dev/, with noindex still enabled. No Amazon Associates session, Store ID or account/site approval has been verified. Refer to [the current Visha Shop connection checklist](AMAZON-VISHA-SHOP-CONNECTION.md) before activating referral links.
 
 ## Account setup, after site release is separately authorized
 
 1. Sign into your own [Amazon Associates Central India](https://affiliate-program.amazon.in/) account.
 2. Check your Store ID / tracking ID and registration status inside Associates Central. Do **not** paste passwords or one-time codes into GitHub or chats.
-3. When Visha Tech Picks has a **real approved public URL**, add that URL to the Associates account's website list. Official route: **Account Settings → Edit your website list → Add Website → Next**. Reference: https://affiliate-program.amazon.in/help/node/topic/G9KDEPG2WF47VQY4
+3. When Visha Shop has a **real approved public URL**, add that URL to the Associates account's website list. Official route: **Account Settings → Edit your website list → Add Website → Next**. Reference: https://affiliate-program.amazon.in/help/node/topic/G9KDEPG2WF47VQY4
 4. Generate product text links using SiteStripe while signed into Amazon.in. Reference: https://affiliate-program.amazon.in/help/node/topic/GJMMT7G4C8K4Y3AY
 5. Queue owner-selected links locally (`npm run agent:amazon -- queue`). The review dashboard (`npm run agent:dashboard`) can approve or reject editorial candidates; **it cannot publish**.
 6. Only after account, product data, affiliate disclosures and public release are reviewed may a separate PR introduce approved product links.
