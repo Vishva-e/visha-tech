@@ -17,7 +17,8 @@
     "agent:handoff": "node scripts/amazon-handoff.mjs",
     "release:preflight": "node scripts/release-preflight.mjs",
     "audit:release": "node scripts/audit-release.mjs",
-    "build:release": "npm run build && npm run audit:release"
+    "build:release": "npm run build && npm run audit:release",
+    "cloudflare:check": "node scripts/check-cloudflare-config.mjs"
   },
   "dependencies": {
     "astro": "^6.0.0",
