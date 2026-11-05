@@ -1,39 +1,124 @@
 ---
-import { navigation } from '../data/site';
+import { categories } from '../data/site';
 interface Props { path: string }
 const { path } = Astro.props;
+const links = [
+  { label: 'Shop', href: '/shop/' },
+  { label: 'Guides', href: '/guides/' },
+  { label: 'Comparisons', href: '/comparisons/' },
+  { label: 'Find your fit', href: '/product-finder/' },
+];
 ---
-<header class="site-header">
-  <div class="utility-bar"><div class="shell utility-bar-inner"><span><span class="utility-pulse" aria-hidden="true"></span> Smarter shopping starts here</span><a href="/editorial-policy/">Independent by design <span aria-hidden="true">↗</span></a></div></div>
-  <div class="shell header-inner">
-    <a class="brand" href="/" aria-label="Visha Shop home">
+<header class="site-header visha-header" id="site-header">
+  <div class="shell visha-header-inner">
+    <a class="brand visha-brand" href="/" aria-label="Visha Shop home">
       <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M5 6h7l5 16h-6L5 6Zm18 0h-7l-3 9 3 7 7-16Z" fill="currentColor"/></svg></span>
       <span class="brand-title">Visha <strong>Shop</strong></span>
     </a>
-    <nav class="desktop-nav" aria-label="Primary navigation">
-      {navigation.map(item => <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>)}
+    <nav class="visha-desktop-nav" aria-label="Primary navigation">
+      <details class="visha-explore-menu">
+        <summary>Explore <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></summary>
+        <div class="visha-mega">
+          <div class="shell visha-mega-content">
+            <section aria-labelledby="visha-mega-categories">
+              <p id="visha-mega-categories" class="visha-menu-eyebrow">Shop by category</p>
+              <div class="visha-mega-grid">
+                {categories.map(category => <a href={`/categories/${category.slug}/`} class="visha-mega-item"><span>{category.name}</span><span aria-hidden="true">↗</span></a>)}
+              </div>
+            </section>
+            <section class="visha-mega-feature" aria-label="Helpful quick links">
+              <p class="visha-menu-eyebrow">Start here</p>
+              <a href="/product-finder/">Find the right setup <span aria-hidden="true">↗</span></a>
+              <a href="/guides/how-much-ram-for-developers/">16 GB or 32 GB RAM? <span aria-hidden="true">↗</span></a>
+              <a href="/editorial-policy/">How we research <span aria-hidden="true">↗</span></a>
+            </section>
+          </div>
+        </div>
+      </details>
+      {links.map(link => <a class="visha-top-link" href={link.href} aria-current={path === link.href ? 'page' : undefined}>{link.label}</a>)}
     </nav>
-    <div class="nav-actions">
-      <a class="header-cta" href="/shop/">Explore shop <span aria-hidden="true">↗</span></a>
-      <a class="nav-search" href="/guides/" aria-label="Search buying guides"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5" stroke-linecap="round"/></svg></a>
-      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-navigation">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+    <div class="visha-header-actions">
+      <button class="visha-icon-button visha-search-toggle" type="button" aria-label="Search Visha Shop" aria-controls="visha-global-search" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5" stroke-linecap="round"/></svg>
+      </button>
+      <button class="visha-icon-button visha-mobile-toggle" type="button" aria-label="Open navigation menu" aria-controls="visha-mobile-nav" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
       </button>
     </div>
   </div>
-  <nav id="mobile-navigation" class="mobile-nav" aria-label="Mobile navigation" hidden>
-    {navigation.map(item => <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}<span aria-hidden="true">↗</span></a>)}
-    <a href="/product-finder/">Find your fit <span aria-hidden="true">↗</span></a>
+  <div id="visha-global-search" class="visha-search-panel" hidden>
+    <div class="shell">
+      <form action="/guides/" method="get" role="search" class="visha-global-search-form">
+        <label for="visha-site-search">Search guides and buying advice</label>
+        <div class="visha-search-field">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5" stroke-linecap="round"/></svg>
+          <input id="visha-site-search" type="search" name="q" placeholder="Try laptops, SSDs or developer RAM" autocomplete="off" />
+          <button type="submit">Search <span aria-hidden="true">↗</span></button>
+        </div>
+      </form>
+      <div class="visha-search-shortcuts"><span>Quick links</span><a href="/categories/laptops/">Laptops</a><a href="/categories/developer-gear/">Developer gear</a><a href="/comparisons/">Comparisons</a></div>
+    </div>
+  </div>
+  <nav id="visha-mobile-nav" class="visha-mobile-nav" aria-label="Mobile primary navigation" hidden>
+    <div class="shell">
+      {links.map(link => <a href={link.href} aria-current={path === link.href ? 'page' : undefined}>{link.label}<span aria-hidden="true">↗</span></a>)}
+      <p class="visha-menu-eyebrow">Categories</p>
+      {categories.map(category => <a class="visha-mobile-category" href={`/categories/${category.slug}/`}>{category.name}<span aria-hidden="true">↗</span></a>)}
+      <a class="visha-mobile-about" href="/about/">About Visha Shop <span aria-hidden="true">↗</span></a>
+    </div>
   </nav>
 </header>
 <script>
-  const button = document.querySelector<HTMLButtonElement>('.menu-toggle');
-  const panel = document.querySelector<HTMLElement>('#mobile-navigation');
-  button?.addEventListener('click', () => {
-    if (!panel) return;
-    const opening = panel.hidden;
-    panel.hidden = !opening;
-    button.setAttribute('aria-expanded', String(opening));
-    button.setAttribute('aria-label', opening ? 'Close menu' : 'Open menu');
+  const header = document.querySelector<HTMLElement>('#site-header');
+  const searchToggle = header?.querySelector<HTMLButtonElement>('.visha-search-toggle');
+  const searchPanel = header?.querySelector<HTMLElement>('#visha-global-search');
+  const searchInput = header?.querySelector<HTMLInputElement>('#visha-site-search');
+  const menuToggle = header?.querySelector<HTMLButtonElement>('.visha-mobile-toggle');
+  const mobileNav = header?.querySelector<HTMLElement>('#visha-mobile-nav');
+  const explore = header?.querySelector<HTMLDetailsElement>('.visha-explore-menu');
+  function closeSearch() {
+    if (!searchPanel || !searchToggle) return;
+    searchPanel.hidden = true;
+    searchToggle.setAttribute('aria-expanded', 'false');
+  }
+  function closeMobile() {
+    if (!mobileNav || !menuToggle) return;
+    mobileNav.hidden = true;
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Open navigation menu');
+  }
+  searchToggle?.addEventListener('click', () => {
+    if (!searchPanel) return;
+    const opening = searchPanel.hidden;
+    closeMobile();
+    if (explore) explore.open = false;
+    searchPanel.hidden = !opening;
+    searchToggle.setAttribute('aria-expanded', String(opening));
+    if (opening) searchInput?.focus();
+  });
+  menuToggle?.addEventListener('click', () => {
+    if (!mobileNav) return;
+    const opening = mobileNav.hidden;
+    closeSearch();
+    if (explore) explore.open = false;
+    mobileNav.hidden = !opening;
+    menuToggle.setAttribute('aria-expanded', String(opening));
+    menuToggle.setAttribute('aria-label', opening ? 'Close navigation menu' : 'Open navigation menu');
+  });
+  explore?.addEventListener('toggle', () => { if (explore.open) { closeMobile(); closeSearch(); } });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    if (explore?.open) { explore.open = false; explore.querySelector<HTMLElement>('summary')?.focus(); }
+    else if (searchPanel && !searchPanel.hidden) { closeSearch(); searchToggle?.focus(); }
+    else if (mobileNav && !mobileNav.hidden) { closeMobile(); menuToggle?.focus(); }
+  });
+  document.addEventListener('click', event => {
+    const target = event.target;
+    if (!(target instanceof Node) || header?.contains(target)) return;
+    closeSearch(); closeMobile();
+    if (explore) explore.open = false;
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 920) closeMobile();
   });
 </script>

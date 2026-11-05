@@ -14,11 +14,22 @@ const category = categoryBySlug(guide.data.category);
 const related = (await getCollection('guides',({data}) => !data.draft && data.category===guide.data.category && data.title!==guide.data.title)).slice(0,2);
 ---
 <BaseLayout title={guide.data.title} description={guide.data.description} kind="article">
+  <div class="visha-article-toolbar">
+    <div class="shell visha-article-toolbar-inner">
+      <nav aria-label="Breadcrumb" class="visha-article-breadcrumbs">
+        <a href="/guides/">Guides</a><span aria-hidden="true">/</span><a href={`/categories/${guide.data.category}/`}>{category?.name ?? 'Technology'}</a>
+      </nav>
+      <nav aria-label="Article navigation" class="visha-article-options">
+        <a href="/guides/">All guides</a>
+        <a href="#guide-content" class="visha-article-read">Read article <span aria-hidden="true">↓</span></a>
+      </nav>
+    </div>
+  </div>
   <article>
     <header class="article-head content-container" style="padding-bottom:0"><a class="eyebrow" href={`/categories/${guide.data.category}/`}>{category?.name ?? 'Technology'}</a><h1>{guide.data.title}</h1><p class="article-lede">{guide.data.description}</p><div class="article-meta">By Visha Shop Editorial · Updated {formatDate(guide.data.updatedAt)} · {guide.data.readMinutes} min read</div></header>
     <div class="content-container">
       <div class="notice"><strong>Research transparency:</strong> This guide is based on {guide.data.reviewType === 'hands-on' ? 'documented hands-on testing' : 'editorial desk research and practical engineering considerations'}, not a claim that we have personally tested every product. We do not currently display live Amazon prices or referral links.</div>
-      <div class="prose"><Content /></div>
+      <div class="prose" id="guide-content"><Content /></div>
       {guide.data.references.length > 0 && <section class="reference-list" aria-label="Further reading"><strong>Further reading and references</strong><ul>{guide.data.references.map(ref=><li><a href={ref.url} rel="noopener noreferrer" target="_blank">{ref.label} ↗</a></li>)}</ul></section>}
       <p class="article-meta" style="margin-top:32px">Originally published {formatDate(guide.data.publishedAt)} · Last editorial update {formatDate(guide.data.updatedAt)}</p>
       <div class="notice">Affiliate disclosure: This website may earn from qualifying purchases when approved affiliate links are added. We currently provide editorial information only. <a href="/affiliate-disclosure/">Read our disclosure.</a></div>
