@@ -159,3 +159,18 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #0071
   .footer-banner{padding:24px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn,.category-card,.guide-card,.compare-tile{transition:none!important;transform:none!important}}
+
+/* Vector illustrations remain readable, crisp and neutral at any density. */
+.category-icon .visha-line-art{color:#404047}
+.guide-illustration{width:100px;height:100px;transform:none;filter:none}
+.guide-illustration .visha-line-art{width:100%;height:100%;color:#55565e}
+.guide-image .visha-line-art svg{max-width:100px;max-height:100px}
+.shop-product-symbol svg{display:block;width:clamp(96px,10vw,148px);height:auto;filter:drop-shadow(0 22px 17px rgba(35,42,52,.14))}
+.shop-product-symbol{display:grid;place-items:center}
+.hero-shop .showcase-mini-icon{font-size:24px;font-weight:480;color:#53565c}
+.guide-card:focus-within,.category-card:focus-within{outline:2px solid #0071e3;outline-offset:4px}
+@media(prefers-reduced-motion:no-preference){
+  @keyframes visha-fade-rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .hero-shop .hero-copy{animation:visha-fade-rise .7s both}
+  .hero-shop .hero-showcase{animation:visha-fade-rise .8s .12s both}
+}
