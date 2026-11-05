@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GuideCard from '../../components/GuideCard.astro';
+import CategoryArtwork from '../../components/CategoryArtwork.astro';
 import { categories } from '../../data/site';
 import { productCandidates } from '../../data/product-candidates.mjs';
 import { approvedAffiliateLink } from '../../lib/affiliate-link-gate.mjs';
@@ -44,7 +45,7 @@ const productLink = approvedAffiliateLink(product, process.env);
         {categories.map((category,index) =>
           <a class="category-card" href={`/categories/${category.slug}/`}>
             <span class="category-card-top"><span class="category-number">{String(index + 1).padStart(2,'0')}</span><span class="category-arrow" aria-hidden="true">↗</span></span>
-            <span class="category-icon" aria-hidden="true">{category.icon}</span>
+            <span class="category-icon" aria-hidden="true"><CategoryArtwork slug={category.slug} /></span>
             <span class="category-card-content"><h3>{category.name}</h3><p>{category.summary}</p></span>
           </a>
         )}
