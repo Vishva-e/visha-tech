@@ -199,3 +199,63 @@
 @media(prefers-reduced-motion:reduce){
   .visha-category-orb,.visha-pill-link,.visha-decision-art,.visha-explore-menu summary svg{transition:none!important;transform:none!important}
 }
+
+/* Shared editorial page rhythm and optional local navigation. */
+.page-heading{padding-block:clamp(54px,7vw,94px) clamp(28px,3vw,52px);max-width:1120px}
+.page-heading .eyebrow-pill{background:transparent;border:0;color:#6e6e73;padding:0;letter-spacing:.1em}
+.page-heading h1{font-size:clamp(48px,6.4vw,85px);letter-spacing:-.06em;line-height:1.06;font-weight:730;color:#1d1d1f;margin:18px 0}
+.page-heading p{font-size:clamp(17px,1.65vw,21px);color:#6e6e73;line-height:1.55;max-width:740px}
+.listing-section{padding-bottom:clamp(70px,9vw,125px)}
+.visha-article-toolbar{position:sticky;top:62px;z-index:50;background:#fbfbfdf2;backdrop-filter:blur(16px);border-bottom:1px solid #e6e6ea}
+.visha-article-toolbar-inner{min-height:49px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.visha-article-breadcrumbs{display:flex;align-items:center;gap:9px;font-size:12px;color:#6e6e73;min-width:0}
+.visha-article-breadcrumbs a:hover{color:#0066cc}
+.visha-article-breadcrumbs a:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.visha-article-options{display:flex;align-items:center;gap:19px;flex:none;font-size:12px;font-weight:550}
+.visha-article-options>a:first-child{color:#6e6e73}
+.visha-article-options>a:hover{color:#0066cc}
+.visha-article-read{background:#0071e3;color:white!important;padding:7px 13px;border-radius:999px}
+.visha-article-read:hover{background:#005bb5}
+#guide-content{scroll-margin-top:135px}
+.article-head{padding-top:clamp(48px,6vw,86px)}
+.article-head h1{font-size:clamp(39px,5vw,68px);font-weight:730;letter-spacing:-.05em;line-height:1.13}
+.article-head .article-lede{font-size:clamp(18px,1.8vw,23px);line-height:1.55;color:#6e6e73}
+.article-head .eyebrow{color:#0066cc}
+.content-container .prose{font-size:16px;line-height:1.85}
+.content-container .prose a{color:#0066cc}
+.content-container .prose h2{letter-spacing:-.04em;font-weight:700;scroll-margin-top:135px}
+.content-container .notice{border-radius:16px;background:#f5f5f7;border:1px solid #e7e7eb;padding:20px 23px}
+.visha-footer{background:#f5f5f7;color:#1d1d1f;padding:0;border-top:1px solid #e3e3e8}
+.visha-footer .visha-footer-feature{padding:75px 0 65px;display:flex;justify-content:space-between;align-items:center;gap:35px;border-bottom:1px solid #dedee3}
+.visha-footer-feature h2{font-size:clamp(30px,3.8vw,53px);letter-spacing:-.052em;line-height:1.15;font-weight:730;margin:12px 0}
+.visha-footer-feature p{font-size:16px;color:#6e6e73;line-height:1.55;margin:0}
+.visha-footer-feature .visha-pill-link{flex:none}
+.visha-footer-navigation{display:grid;grid-template-columns:minmax(250px,1.7fr) repeat(3,minmax(125px,1fr));gap:clamp(20px,3.4vw,55px);padding:60px 0}
+.visha-footer-about p{font-size:14px;color:#6e6e73;max-width:275px;line-height:1.6;margin-top:20px}
+.visha-footer .brand-title,.visha-footer .brand-title strong{color:#1d1d1f}
+.visha-footer-links{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.visha-footer-links h3{margin:0 0 5px;font-size:13px;letter-spacing:0;color:#1d1d1f;font-weight:700}
+.visha-footer-links a{font-size:12px;font-weight:510;line-height:1.5;color:#6e6e73}
+.visha-footer-links a:hover{color:#0066cc;text-decoration:underline}
+.visha-footer-disclosure{border-top:1px solid #dedee3;padding:15px 0}
+.visha-footer-disclosure p{color:#78787c;font-size:11px;line-height:1.5;margin:0}
+.visha-footer-bottom{display:flex;gap:16px;align-items:center;flex-wrap:wrap;border-top:1px solid #dedee3;padding:20px 0 33px;color:#818186;font-size:11px}
+.visha-footer-bottom a:hover{color:#0066cc}
+.visha-footer-bottom .visha-footer-location{margin-left:auto}
+@media(max-width:920px){
+  .visha-article-toolbar{top:58px}
+  .visha-footer-navigation{grid-template-columns:repeat(3,minmax(0,1fr));gap:38px 25px}
+  .visha-footer-about{grid-column:1/-1}
+  .visha-footer .visha-footer-feature{padding:56px 0}
+}
+@media(max-width:650px){
+  .page-heading{padding-block:55px 25px}
+  .page-heading h1{font-size:47px}
+  .visha-article-breadcrumbs{font-size:11px}
+  .visha-article-options>a:first-child{display:none}
+  .visha-footer .visha-footer-feature{display:block}
+  .visha-footer-feature .visha-pill-link{margin-top:24px}
+  .visha-footer-navigation{grid-template-columns:repeat(2,minmax(0,1fr));gap:38px 22px;padding:45px 0}
+  .visha-footer-about{grid-column:1/-1}
+  .visha-footer-bottom .visha-footer-location{margin-left:0}
+}
