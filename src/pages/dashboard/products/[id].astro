@@ -1,0 +1,73 @@
+---
+import AppLayout from '../../../layouts/AppLayout.astro';
+import { productCandidates } from '../../../data/product-candidates.mjs';
+import { approvedAffiliateLink } from '../../../lib/affiliate-link-gate.mjs';
+
+export function getStaticPaths() {
+  return productCandidates.map(product => ({ params: { id: product.id }, props: { product } }));
+}
+interface Props {
+  product: {
+    id: string;
+    title: string;
+    asin: string;
+    description: string;
+    category: string;
+    guidePath: string;
+    status: string;
+    reviewed: boolean;
+    url: string;
+  };
+}
+const { product } = Astro.props;
+const productLink = approvedAffiliateLink(product, process.env);
+const appGuidePath = product.guidePath.replace(/^\/guides\//, '/dashboard/guides/');
+---
+<AppLayout title={product.title} breadcrumb="Product detail" section="product" description={product.description}>
+  <div class="visha-app-page-heading">
+    <div><a href="/dashboard/" class="visha-app-text-link">← Back to dashboard</a></div>
+    <a class="visha-app-outline" href={appGuidePath}>Read buying guide ↗</a>
+  </div>
+  <section class="visha-app-product-view" aria-labelledby="product-heading">
+    <div class="visha-app-product-art visha-app-panel" aria-label="Original illustrative computer mouse artwork">
+      <div class="visha-app-product-light"></div>
+      <svg viewBox="0 0 260 350" role="img" aria-label="Stylized metallic wireless mouse" preserveAspectRatio="xMidYMid meet">
+        <defs><linearGradient id="productShell" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".46" stop-color="#d8dadf"/><stop offset="1" stop-color="#9198a5"/></linearGradient><filter id="productShadow"><feDropShadow dx="3" dy="22" stdDeviation="18" flood-color="#3b4555" flood-opacity=".18"/></filter></defs>
+        <rect x="57" y="22" width="146" height="296" rx="73" fill="url(#productShell)" stroke="#9299a5" stroke-width="2.8" filter="url(#productShadow)"/>
+        <path d="M130 23v83M58 131h144" fill="none" stroke="#989fa9" stroke-width="2.6"/>
+        <rect x="124" y="68" width="12" height="38" rx="6" fill="#737d8c"/>
+        <path d="M71 222c13 61 38 79 59 84" stroke="#eef0f3" stroke-width="4" stroke-linecap="round" fill="none" opacity=".6"/>
+      </svg>
+      <span class="visha-app-product-art-caption">Illustrative artwork · Not a manufacturer photograph</span>
+    </div>
+    <div class="visha-app-product-summary">
+      <span class="visha-app-eyebrow">PRODUCT SPOTLIGHT · EDITORIAL REVIEW PENDING</span>
+      <h1 id="product-heading">{product.title}</h1>
+      <p class="visha-app-product-description">{product.description}</p>
+      <div class="visha-app-product-chips"><span>Developer gear</span><span>Bluetooth</span><span>USB-C charging</span></div>
+      <div class="visha-app-product-divider"></div>
+      <div class="visha-app-product-price-status"><strong>Price not displayed</strong><span>No live retailer pricing or verified discount data</span></div>
+      <div class="visha-app-product-cta">
+        <a href={appGuidePath} class="visha-app-action">Read the buying guide ↗</a>
+        {productLink ? <a class="visha-app-outline" href={productLink.url} rel={productLink.rel} target="_blank">View retailer <span>{productLink.disclosure}</span> ↗</a> : <span class="visha-app-product-pending" role="status">Purchase link awaiting editorial and affiliate approval</span>}
+      </div>
+      <p class="visha-app-product-disclaimer">This is an owner-submitted product candidate, not a hands-on review, verified recommendation or live offer. Check specifications, warranty and seller terms before buying.</p>
+    </div>
+  </section>
+  <section class="visha-app-product-bottom" aria-labelledby="product-checklist-heading">
+    <div class="visha-app-panel visha-app-product-checklist">
+      <span class="visha-app-eyebrow">BUYING CONSIDERATIONS</span>
+      <h2 id="product-checklist-heading">The details worth checking.</h2>
+      <div class="visha-app-product-questions">
+        <div><span>01</span><div><h3>Compatibility</h3><p>Confirm Bluetooth support and operating system requirements with the manufacturer.</p></div></div>
+        <div><span>02</span><div><h3>Comfort and workflow</h3><p>Evaluate size, ergonomics, scrolling and long working sessions for your use case.</p></div></div>
+        <div><span>03</span><div><h3>Warranty and seller</h3><p>Review the current listing, return policy and India warranty terms before purchasing.</p></div></div>
+      </div>
+    </div>
+    <aside class="visha-app-panel visha-app-product-facts" aria-label="Listing status">
+      <h2>Listing information</h2>
+      <dl><dt>Product</dt><dd>{product.title}</dd><dt>Reference ID (ASIN)</dt><dd>{product.asin}</dd><dt>Editorial status</dt><dd>{product.reviewed ? 'Reviewed' : 'Review pending'}</dd><dt>Live price</dt><dd>Not available</dd></dl>
+      <a href="/editorial-policy/" class="visha-app-text-link">How we research ↗</a>
+    </aside>
+  </section>
+</AppLayout>
