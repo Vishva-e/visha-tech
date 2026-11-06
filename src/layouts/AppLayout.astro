@@ -79,7 +79,7 @@ const navigation = [
       </div>
     </div>
     <script>
-      import { getSavedIds, subscribeToSavedChanges } from '../lib/reading-list';
+      import { getSavedIds, subscribeToSavedChanges, toggleSaved } from '../lib/reading-list';
       const app = document.querySelector<HTMLElement>('#visha-app');
       const toggle = document.querySelector<HTMLButtonElement>('#app-sidebar-toggle');
       const close = document.querySelector<HTMLButtonElement>('#app-close-sidebar');
@@ -105,8 +105,30 @@ const navigation = [
       });
       window.addEventListener('resize', () => { if (window.innerWidth > 900 && app?.classList.contains('sidebar-open')) setSidebar(true); else if (window.innerWidth <= 900) { app?.classList.remove('sidebar-collapsed'); toggle?.setAttribute('aria-expanded','false'); } });
       const updateCounter = () => { if (counter) counter.textContent = String(getSavedIds().length); };
+      const updateSaveUI = () => {
+        const saved = new Set(getSavedIds());
+        document.querySelectorAll<HTMLButtonElement>('[data-save-guide]').forEach(button => {
+          const slug = button.dataset.saveGuide || '';
+          const active = saved.has(slug);
+          button.setAttribute('aria-pressed', String(active));
+          const label = button.querySelector<HTMLElement>('[data-save-label]');
+          if (label) label.textContent = active ? 'Saved' : 'Save';
+          button.setAttribute('aria-label', (active ? 'Remove saved guide: ' : 'Save guide: ') + (button.dataset.guideTitle || slug));
+        });
+        const summary = document.querySelector<HTMLElement>('#dashboard-saved-count');
+        if (summary) summary.textContent = String(saved.size);
+      };
+      document.addEventListener('click', event => {
+        const target = event.target;
+        const button = target instanceof Element ? target.closest<HTMLButtonElement>('[data-save-guide]') : null;
+        if (button?.dataset.saveGuide) {
+          toggleSaved(button.dataset.saveGuide);
+          updateSaveUI();
+        }
+      });
       updateCounter();
-      subscribeToSavedChanges(updateCounter);
+      updateSaveUI();
+      subscribeToSavedChanges(() => { updateCounter(); updateSaveUI(); });
       if (window.matchMedia('(max-width: 900px)').matches) toggle?.setAttribute('aria-expanded','false');
     </script>
   </body>
