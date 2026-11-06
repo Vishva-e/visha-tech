@@ -1,0 +1,45 @@
+/* Next-level workspace controls: command palette, persistent appearance and responsive polish. */
+.visha-enhance-icon-button,.visha-enhance-command-button{height:36px;min-width:36px;display:inline-flex;align-items:center;justify-content:center;gap:2px;border:1px solid #e4e4e9;border-radius:10px;background:#f6f6f8;color:#555761;font-size:17px;cursor:pointer}
+.visha-enhance-icon-button:hover,.visha-enhance-command-button:hover{background:#e9e9ef}
+.visha-enhance-command-button{padding:0 7px;font-size:13px}
+.visha-enhance-command-button kbd{font:10px inherit;color:#85858e}
+.visha-command-palette{width:min(620px,calc(100vw - 28px));max-width:none;padding:0;border:1px solid #ffffffa8;border-radius:19px;background:transparent;color:#1c1c1e;box-shadow:0 28px 100px #10131e40;overflow:visible}
+.visha-command-palette::backdrop{background:#17192366;backdrop-filter:blur(7px)}
+.visha-command-shell{padding:13px;background:#fbfbfdf5;backdrop-filter:blur(28px);border:1px solid #fff;border-radius:19px}
+.visha-command-heading,.visha-command-footer{display:flex;align-items:center;justify-content:space-between;padding:7px 9px;color:#85858e;font-size:11px;font-weight:650}
+.visha-command-heading kbd,.visha-command-footer kbd{border:1px solid #e2e2e8;background:#fff;border-radius:5px;padding:2px 5px;font:10px inherit}
+.visha-command-search-wrap{height:53px;display:flex;align-items:center;gap:12px;padding:0 13px;border:1px solid #e3e3e9;background:#fff;border-radius:12px;color:#8b8b94}
+.visha-command-search-wrap>span{font-size:23px}
+.visha-command-search-wrap input{width:100%;border:0;outline:0!important;background:transparent;color:#1c1c1e;font:15px inherit}
+.visha-command-results{max-height:min(440px,60vh);overflow:auto;padding:8px 0}
+.visha-command-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;color:#30313a;text-decoration:none}
+.visha-command-item:hover,.visha-command-item[aria-selected=true]{background:#eaf1fc}
+.visha-command-item-icon{width:34px;height:34px;display:grid;place-items:center;flex:none;border:1px solid #e7e8ed;border-radius:9px;background:#fff;color:#63738d;font-size:17px}
+.visha-command-item-copy{display:grid;gap:2px;min-width:0;flex:1}
+.visha-command-item-copy strong{font-size:13px;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.visha-command-item-copy small{font-size:11px;color:#888993}
+.visha-command-item-arrow{color:#9b9ba4;font-size:12px}
+.visha-command-empty{padding:22px 12px;text-align:center;color:#85858e;font-size:13px}
+.visha-command-footer{border-top:1px solid #e9e9ed;padding-top:11px}
+body.visha-app-body[data-visha-theme=dark]{--app-ink:#f5f5f7;--app-muted:#a1a1aa;--app-line:#33343b;--app-base:#17181c;--app-card:#222329;background:#17181c;color:#f5f5f7}
+body.visha-app-body[data-visha-theme=dark] .visha-app-stage{background:#191a1f}
+body.visha-app-body[data-visha-theme=dark] .visha-app-sidebar{background:linear-gradient(150deg,#202127,#1b1c21);border-color:#34353d}
+body.visha-app-body[data-visha-theme=dark] .visha-app-toolbar{background:#202127e8;border-color:#34353d}
+body.visha-app-body[data-visha-theme=dark] .visha-app-toolbar-divider,body.visha-app-body[data-visha-theme=dark] .visha-app-nav-divider{background:#393a43}
+body.visha-app-body[data-visha-theme=dark] .visha-app-nav-link{color:#c3c4cc!important}
+body.visha-app-body[data-visha-theme=dark] .visha-app-nav-link:hover{background:#30313a;color:#fff!important}
+body.visha-app-body[data-visha-theme=dark] .visha-app-nav-link.is-active{background:#243c5b;color:#a8ceff!important}
+body.visha-app-body[data-visha-theme=dark] .visha-app-panel{background:#23242a;border-color:#373840;box-shadow:0 14px 48px #0000001c}
+body.visha-app-body[data-visha-theme=dark] .visha-app-page-heading p,body.visha-app-body[data-visha-theme=dark] .visha-app-section-heading p,body.visha-app-body[data-visha-theme=dark] .visha-app-local-note{color:#a1a1aa}
+body.visha-app-body[data-visha-theme=dark] .visha-app-outline,body.visha-app-body[data-visha-theme=dark] .visha-app-search-command,body.visha-app-body[data-visha-theme=dark] .visha-enhance-icon-button,body.visha-app-body[data-visha-theme=dark] .visha-enhance-command-button{background:#2b2c33;border-color:#41424b;color:#e5e5ea!important}
+body.visha-app-body[data-visha-theme=dark] .visha-app-search-command kbd{background:#1d1e23;border-color:#41424b}
+body.visha-app-body[data-visha-theme=dark] .visha-app-category-card,body.visha-app-body[data-visha-theme=dark] .visha-app-guide,body.visha-app-body[data-visha-theme=dark] .visha-app-stat{background:#23242a;border-color:#373840}
+body.visha-app-body[data-visha-theme=dark] .visha-app-nav-heading,body.visha-app-body[data-visha-theme=dark] .visha-app-privacy-note,body.visha-app-body[data-visha-theme=dark] .visha-app-sidebar-bottom{color:#9697a1;border-color:#393a43}
+body.visha-app-body[data-visha-theme=dark] .visha-command-shell{background:#25262df2;border-color:#41424b}
+body.visha-app-body[data-visha-theme=dark] .visha-command-palette{color:#f5f5f7}
+body.visha-app-body[data-visha-theme=dark] .visha-command-search-wrap,body.visha-app-body[data-visha-theme=dark] .visha-command-item-icon{background:#1d1e24;border-color:#41424b;color:#f5f5f7}
+body.visha-app-body[data-visha-theme=dark] .visha-command-search-wrap input,body.visha-app-body[data-visha-theme=dark] .visha-command-item{color:#f5f5f7}
+body.visha-app-body[data-visha-theme=dark] .visha-command-item:hover,body.visha-app-body[data-visha-theme=dark] .visha-command-item[aria-selected=true]{background:#303b4e}
+body.visha-app-body[data-visha-theme=dark] .visha-command-footer{border-color:#41424b}
+@media(max-width:620px){.visha-enhance-command-button{display:none}.visha-command-palette{align-self:start;margin-top:12vh}.visha-app-toolbar-trailing{gap:7px}}
+@media(prefers-reduced-motion:reduce){.visha-command-item,.visha-enhance-icon-button{transition:none!important}}
