@@ -31,7 +31,7 @@ const navigation = [
     <title>{title} | Visha Shop</title>
   </head>
   <body class="visha-app-body">
-    <a href="#app-content" class="skip-link">Skip to main content</a>
+    <a href="#main" class="skip-link">Skip to main content</a>
     <div class="visha-app-shell" id="visha-app">
       <div class="visha-app-scrim" id="app-scrim" hidden></div>
       <aside class="visha-app-sidebar" id="app-sidebar" aria-label="Workspace navigation">
@@ -75,7 +75,7 @@ const navigation = [
             <a class="visha-app-avatar" href="/about/" aria-label="About Visha Shop">V</a>
           </div>
         </header>
-        <main id="app-content" class="visha-app-main"><slot /></main>
+        <main id="main" class="visha-app-main"><slot /></main>
       </div>
     </div>
     <script>
