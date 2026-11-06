@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { categoryBySlug, formatDate } from '../data/site';
+import CategoryArtwork from './CategoryArtwork.astro';
+
+interface Props { guide: CollectionEntry<'guides'> }
+const { guide } = Astro.props;
+const category = categoryBySlug(guide.data.category);
+const url = `/dashboard/guides/${guide.id}/`;
+---
+<article class="visha-app-guide visha-app-panel">
+  <a href={url} class="visha-app-guide-art" aria-hidden="true" tabindex="-1"><CategoryArtwork slug={guide.data.category}/></a>
+  <div class="visha-app-guide-content">
+    <div class="visha-app-guide-meta">{category?.name ?? 'Tech guide'} · {guide.data.readMinutes} min read</div>
+    <h3><a href={url}>{guide.data.title}</a></h3>
+    <p>{guide.data.description}</p>
+    <div class="visha-app-guide-bottom">
+      <a href={url}>Read guide <span aria-hidden="true">↗</span></a>
+      <button type="button" data-save-guide={guide.id} data-guide-title={guide.data.title} aria-pressed="false" aria-label={`Save guide: ${guide.data.title}`}><span aria-hidden="true">♡</span><span data-save-label>Save</span></button>
+    </div>
+    <span class="visually-hidden">Updated {formatDate(guide.data.updatedAt)}</span>
+  </div>
+</article>

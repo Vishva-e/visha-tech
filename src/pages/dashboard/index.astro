@@ -1,0 +1,50 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import AppGuideCard from '../../components/AppGuideCard.astro';
+import CategoryArtwork from '../../components/CategoryArtwork.astro';
+import { categories } from '../../data/site';
+import { getCollection } from 'astro:content';
+const guides = (await getCollection('guides', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.updatedAt.getTime() - a.data.updatedAt.getTime());
+const featured = [...guides].sort((a, b) => Number(b.data.featured) - Number(a.data.featured)).slice(0, 3);
+const categoryCounts = categories.map(category => ({
+  ...category,
+  count: guides.filter(guide => guide.data.category === category.slug).length,
+}));
+---
+<AppLayout title="Overview" breadcrumb="Overview" section="overview" description="Explore Visha Shop's independent technology guides, categories, and your saved reading list.">
+  <div class="visha-app-page-heading">
+    <div><span class="visha-app-eyebrow">YOUR WORKSPACE</span><h1>Your technology, simplified.</h1><p>A calmer way to explore tech, compare decisions, and keep useful guides close.</p></div>
+    <a href="/dashboard/library/" class="visha-app-outline">Browse all guides <span aria-hidden="true">↗</span></a>
+  </div>
+  <section class="visha-dashboard-hero" aria-labelledby="dashboard-hero-title">
+    <div class="visha-dashboard-hero-copy">
+      <span class="visha-app-eyebrow">VISHA SHOP · DISCOVER</span>
+      <h2 id="dashboard-hero-title">Better tech starts<br/>with better questions.</h2>
+      <p>Explore unbiased buying checklists built around real workloads, long-term usefulness and practical trade-offs.</p>
+      <a class="visha-app-action" href="/dashboard/library/">Explore the library <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="visha-dashboard-visual" aria-hidden="true">
+      <div class="visha-dashboard-window"><div class="visha-dashboard-dots"><i></i><i></i><i></i></div><div class="visha-dashboard-window-body"><b></b><span></span><span></span><span></span></div></div>
+    </div>
+  </section>
+  <section class="visha-app-stats" aria-label="Library at a glance">
+    <div class="visha-app-stat visha-app-panel"><div class="visha-app-stat-label">Published guides</div><div class="visha-app-stat-value">{guides.length}</div><div class="visha-app-stat-foot">Editorial articles available</div></div>
+    <div class="visha-app-stat visha-app-panel"><div class="visha-app-stat-label">Topics covered</div><div class="visha-app-stat-value">{categoryCounts.filter(category => category.count > 0).length}</div><div class="visha-app-stat-foot">Categories with published guides</div></div>
+    <div class="visha-app-stat visha-app-panel"><div class="visha-app-stat-label">Saved for later</div><div id="dashboard-saved-count" class="visha-app-stat-value">0</div><div class="visha-app-stat-foot">Private to this browser</div></div>
+  </section>
+  <section aria-labelledby="dashboard-category-title">
+    <div class="visha-app-section-heading"><div><h2 id="dashboard-category-title">Browse by category</h2><p>Go straight to what interests you.</p></div><a class="visha-app-text-link" href="/dashboard/library/">View all topics ↗</a></div>
+    <div class="visha-app-category-grid">
+      {categoryCounts.map(category => <a href={`/dashboard/library/?category=${category.slug}`} class="visha-app-category-card visha-app-panel">
+        <span class="visha-app-category-icon" aria-hidden="true"><CategoryArtwork slug={category.slug}/></span>
+        <span class="visha-app-category-text"><strong>{category.name}</strong><small>{category.count} {category.count === 1 ? 'guide' : 'guides'} <span aria-hidden="true">↗</span></small></span>
+      </a>)}
+    </div>
+  </section>
+  <section aria-labelledby="dashboard-featured-title">
+    <div class="visha-app-section-heading"><div><h2 id="dashboard-featured-title">Recommended reading</h2><p>Featured research from the editorial library.</p></div><a class="visha-app-text-link" href="/dashboard/library/">See every guide ↗</a></div>
+    <div class="visha-app-guides-grid">{featured.map(guide => <AppGuideCard guide={guide}/>)}</div>
+  </section>
+  <p class="visha-app-local-note">Independent research, not live pricing or paid product rankings. <a href="/editorial-policy/" class="visha-app-text-link">How we research ↗</a></p>
+</AppLayout>

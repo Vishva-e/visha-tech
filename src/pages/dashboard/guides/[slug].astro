@@ -1,0 +1,58 @@
+---
+import AppLayout from '../../../layouts/AppLayout.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { categoryBySlug, formatDate } from '../../../data/site';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides', ({ data }) => !data.draft);
+  return guides.map(guide => ({ params: { slug: guide.id }, props: { guide } }));
+}
+interface Props { guide: CollectionEntry<'guides'> }
+const { guide } = Astro.props;
+const { Content, headings } = await render(guide);
+const category = categoryBySlug(guide.data.category);
+const toc = headings.filter(heading => heading.depth === 2 || heading.depth === 3).slice(0, 14);
+const related = (await getCollection('guides', ({data}) => !data.draft && data.category === guide.data.category && data.title !== guide.data.title)).slice(0, 2);
+---
+<AppLayout title={guide.data.title} breadcrumb="Guide detail" section="detail" description={guide.data.description}>
+  <div class="visha-app-page-heading">
+    <div><a href="/dashboard/library/" class="visha-app-text-link">← Back to library</a></div>
+    <a class="visha-app-outline" href={`/dashboard/library/?category=${guide.data.category}`}>More {category?.name ?? 'guides'} <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="visha-app-detail-grid">
+    <div class="visha-app-detail-content">
+      <header class="visha-app-panel visha-app-detail-hero">
+        <span class="visha-app-detail-tag">{category?.name ?? 'Technology'} / Buying guide</span>
+        <h1>{guide.data.title}</h1>
+        <p class="visha-app-lead">{guide.data.description}</p>
+        <div class="visha-app-detail-meta"><span>By Visha Shop Editorial</span><span aria-hidden="true">·</span><span>Updated {formatDate(guide.data.updatedAt)}</span><span aria-hidden="true">·</span><span>{guide.data.readMinutes} min read</span></div>
+        <div class="visha-app-detail-actions">
+          <button class="visha-app-save-button" type="button" data-save-guide={guide.id} data-guide-title={guide.data.title} aria-pressed="false" aria-label={`Save guide: ${guide.data.title}`}>♡ <span data-save-label>Save</span> guide</button>
+          <a class="visha-app-outline" href="#article-body">Start reading ↓</a>
+          <a class="visha-app-outline" href={`/guides/${guide.id}/`}>Open public article ↗</a>
+        </div>
+      </header>
+      <article class="visha-app-article-body visha-app-panel" id="article-body">
+        <div class="visha-app-editorial-note"><strong>Research transparency:</strong> This guide is based on {guide.data.reviewType === 'hands-on' ? 'documented hands-on research' : 'editorial desk research and practical engineering considerations'}. It does not claim personal testing of every product, live prices, or verified seller inventory.</div>
+        <div class="prose"><Content /></div>
+        {guide.data.references.length > 0 && <section class="reference-list" aria-label="Further reading"><h2>Further reading</h2><ul>{guide.data.references.map(item => <li><a href={item.url} rel="noopener noreferrer" target="_blank">{item.label} ↗</a></li>)}</ul></section>}
+        <div class="visha-app-editorial-note"><strong>Affiliate disclosure:</strong> Affiliate purchase links are not currently active. Research and product rankings are editorially independent. <a href="/affiliate-disclosure/">Read our policy ↗</a></div>
+      </article>
+      {related.length > 0 && <section class="visha-app-detail-related" aria-labelledby="detail-related-title">
+        <div class="visha-app-section-heading"><div><h2 id="detail-related-title">Continue exploring</h2><p>More research in {category?.name ?? 'this category'}.</p></div></div>
+        <div class="visha-app-related-list">{related.map(item => <a class="visha-app-panel" href={`/dashboard/guides/${item.id}/`}><span>{item.data.readMinutes} min read</span>{item.data.title} ↗</a>)}</div>
+      </section>}
+    </div>
+    <aside class="visha-app-panel visha-app-detail-aside" aria-label="Guide contents and information">
+      <h2>On this page</h2>
+      <nav class="visha-app-toc" aria-label="Table of contents">
+        {toc.length > 0 ? toc.map(item => <a href={`#${item.slug}`}>{item.text}</a>) : <a href="#article-body">Read the article</a>}
+      </nav>
+      <div class="visha-app-detail-aside-divider"></div>
+      <h2>About this guide</h2>
+      <p>Published {formatDate(guide.data.publishedAt)}. Updated {formatDate(guide.data.updatedAt)}. Based on stated editorial methodology, with no live price claims.</p>
+      <div class="visha-app-detail-aside-divider"></div>
+      <a class="visha-app-text-link" href="/editorial-policy/">Editorial standards ↗</a>
+    </aside>
+  </div>
+</AppLayout>
