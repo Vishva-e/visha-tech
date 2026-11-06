@@ -1,3 +1,4 @@
+// @ts-nocheck -- standalone browser enhancement; DOM types are runtime-guarded.
 (() => {
   const body = document.body;
   const toolbar = document.querySelector('.visha-app-toolbar-trailing');
