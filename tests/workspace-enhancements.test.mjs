@@ -18,7 +18,7 @@ test('Workspace appearance preference is local and supports light and dark theme
   const script = read('public/workspace-enhancements.js');
   const styles = read('src/styles/workspace-enhancements.css');
   assert.match(script, /visha-workspace-theme/);
-  assert.match(script, /dataset\\.vishaTheme/);
+  assert.match(script, /dataset\.vishaTheme/);
   assert.match(styles, /data-visha-theme=dark/);
   assert.match(styles, /prefers-reduced-motion/);
 });
