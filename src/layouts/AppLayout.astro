@@ -3,6 +3,7 @@ import { categories } from '../data/site';
 import { productCandidates } from '../data/product-candidates.mjs';
 import '../styles/global.css';
 import '../styles/app-workspace.css';
+import '../styles/workspace-enhancements.css';
 
 interface Props {
   title: string;
@@ -136,5 +137,6 @@ const navigation = [
       subscribeToSavedChanges(() => { updateCounter(); updateSaveUI(); });
       if (window.matchMedia('(max-width: 900px)').matches) toggle?.setAttribute('aria-expanded','false');
     </script>
+    <script src="/workspace-enhancements.js"></script>
   </body>
 </html>
