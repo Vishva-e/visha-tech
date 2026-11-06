@@ -93,14 +93,16 @@ const navigation = [
         toggle?.setAttribute('aria-expanded', String(open));
         document.body.classList.toggle('visha-app-lock-scroll', mobile && open);
       }
-      toggle?.addEventListener('click', () => setSidebar(window.matchMedia('(max-width: 900px)').matches ? !app?.classList.contains('sidebar-open') : app?.classList.contains('sidebar-collapsed')));
+      toggle?.addEventListener('click', () => setSidebar(window.matchMedia('(max-width: 900px)').matches ? !Boolean(app?.classList.contains('sidebar-open')) : Boolean(app?.classList.contains('sidebar-collapsed'))));
       close?.addEventListener('click', () => { setSidebar(false); toggle?.focus(); });
       scrim?.addEventListener('click', () => setSidebar(false));
       document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && app?.classList.contains('sidebar-open')) { setSidebar(false); toggle?.focus(); }
         if (event.key === '/' && !(event.target instanceof HTMLInputElement) && !(event.target instanceof HTMLTextAreaElement) && !(event.target instanceof HTMLSelectElement) && !event.metaKey && !event.ctrlKey && !event.altKey) {
           event.preventDefault();
-          window.location.assign('/dashboard/library/?focus=search');
+          const libraryInput = document.querySelector<HTMLInputElement>('#app-library-search');
+          if (libraryInput) libraryInput.focus();
+          else window.location.assign('/dashboard/library/?focus=search');
         }
       });
       window.addEventListener('resize', () => { if (window.innerWidth > 900 && app?.classList.contains('sidebar-open')) setSidebar(true); else if (window.innerWidth <= 900) { app?.classList.remove('sidebar-collapsed'); toggle?.setAttribute('aria-expanded','false'); } });
