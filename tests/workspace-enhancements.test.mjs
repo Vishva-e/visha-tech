@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+/** @param {string} path */
 const read = path => readFileSync(path, 'utf8');
 
 test('Workspace adds a keyboard-accessible command palette and local navigation', () => {
