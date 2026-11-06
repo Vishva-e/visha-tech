@@ -1,0 +1,93 @@
+---
+import AppLayout from '../../../layouts/AppLayout.astro';
+import AppGuideCard from '../../../components/AppGuideCard.astro';
+import { categories } from '../../../data/site';
+import { getCollection } from 'astro:content';
+const guides = (await getCollection('guides', ({data}) => !data.draft))
+  .sort((a, b) => b.data.updatedAt.getTime() - a.data.updatedAt.getTime());
+---
+<AppLayout title="Guide library" breadcrumb="Library" section="library" description="Search, filter and browse Visha Shop's independent buying guide collection.">
+  <header class="visha-app-page-heading">
+    <div><span class="visha-app-eyebrow">DISCOVER / LIBRARY</span><h1>Explore guides.</h1><p>Useful research organized the way you work. Search by topic, filter categories and switch between grid and list views.</p></div>
+    <a href="/dashboard/saved/" class="visha-app-outline">Saved guides <span aria-hidden="true">↗</span></a>
+  </header>
+  <section aria-label="Explore guides">
+    <div class="visha-app-filter-panel visha-app-panel">
+      <div class="visha-app-field"><label for="app-library-search">Search guides</label><input id="app-library-search" type="search" placeholder="Search laptops, RAM, storage…" autocomplete="off" aria-controls="app-library-results"/></div>
+      <div class="visha-app-field"><label for="app-library-category">Category</label><select id="app-library-category" aria-controls="app-library-results"><option value="all">All categories</option>{categories.map(category => <option value={category.slug}>{category.name}</option>)}</select></div>
+      <div class="visha-app-field"><label for="app-library-sort">Sort by</label><select id="app-library-sort" aria-controls="app-library-results"><option value="updated">Recently updated</option><option value="title">Title A–Z</option><option value="reading">Shortest first</option></select></div>
+      <div class="visha-app-field"><label id="app-view-label">View as</label><div class="visha-app-view-switch" role="group" aria-labelledby="app-view-label"><button type="button" data-view="grid" aria-pressed="true" aria-controls="app-library-results">Grid</button><button type="button" data-view="list" aria-pressed="false" aria-controls="app-library-results">List</button></div></div>
+    </div>
+    <div class="visha-app-result-bar"><span id="app-library-count" role="status" aria-live="polite">Showing {guides.length} guides</span><button class="visha-app-text-link" type="button" id="app-library-reset">Clear filters</button></div>
+    <div class="visha-app-library-list" id="app-library-results">
+      {guides.map(guide => <div class="visha-app-library-item" data-guide-search={`${guide.data.title} ${guide.data.description} ${guide.data.tags.join(' ')}`.toLocaleLowerCase('en-IN')} data-guide-category={guide.data.category} data-guide-title={guide.data.title} data-guide-updated={guide.data.updatedAt.getTime()} data-guide-reading={guide.data.readMinutes}>
+        <AppGuideCard guide={guide}/>
+      </div>)}
+    </div>
+    <div id="app-library-empty" class="visha-app-empty" hidden><h2>No matching guides.</h2><p>Try a shorter search or a different category.</p><button type="button" class="visha-app-outline" id="app-empty-reset">Show all guides</button></div>
+  </section>
+</AppLayout>
+<script>
+  const search = document.querySelector<HTMLInputElement>('#app-library-search');
+  const category = document.querySelector<HTMLSelectElement>('#app-library-category');
+  const sort = document.querySelector<HTMLSelectElement>('#app-library-sort');
+  const count = document.querySelector<HTMLElement>('#app-library-count');
+  const list = document.querySelector<HTMLElement>('#app-library-results');
+  const empty = document.querySelector<HTMLElement>('#app-library-empty');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('.visha-app-library-item'));
+  const viewButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-view]'));
+  const allowed = new Set(['laptops','developer-gear','smartphones','audio','storage','work-from-home']);
+  let currentView: 'grid' | 'list' = 'grid';
+  function apply(updateUrl = true) {
+    if (!search || !category || !sort || !list) return;
+    const q = search.value.trim().toLocaleLowerCase('en-IN');
+    const selected = category.value;
+    let visible = 0;
+    for (const card of cards) {
+      const matches = (card.dataset.guideSearch || '').includes(q) && (selected === 'all' || selected === card.dataset.guideCategory);
+      card.hidden = !matches;
+      if (matches) visible++;
+    }
+    const key = sort.value;
+    cards.sort((a,b) => {
+      if (key === 'title') return (a.dataset.guideTitle || '').localeCompare(b.dataset.guideTitle || '', 'en-IN');
+      if (key === 'reading') return Number(a.dataset.guideReading || 0) - Number(b.dataset.guideReading || 0);
+      return Number(b.dataset.guideUpdated || 0) - Number(a.dataset.guideUpdated || 0);
+    });
+    list.replaceChildren(...cards);
+    list.classList.toggle('is-list', currentView === 'list');
+    for (const button of viewButtons) button.setAttribute('aria-pressed', String(button.dataset.view === currentView));
+    if (count) count.textContent = `Showing ${visible} of ${cards.length} guides`;
+    if (empty) empty.hidden = visible !== 0;
+    if (updateUrl) {
+      const url = new URL(window.location.href);
+      if (q) url.searchParams.set('q', q); else url.searchParams.delete('q');
+      if (selected !== 'all') url.searchParams.set('category', selected); else url.searchParams.delete('category');
+      if (key !== 'updated') url.searchParams.set('sort', key); else url.searchParams.delete('sort');
+      if (currentView === 'list') url.searchParams.set('view', 'list'); else url.searchParams.delete('view');
+      history.replaceState(null, '', url.pathname + url.search);
+    }
+  }
+  function reset() {
+    if (!search || !category || !sort) return;
+    search.value = ''; category.value = 'all'; sort.value = 'updated'; currentView = 'grid';
+    apply(); search.focus();
+  }
+  if (search && category && sort) {
+    const params = new URLSearchParams(window.location.search);
+    search.value = params.get('q') || '';
+    const initialCategory = params.get('category') || '';
+    category.value = allowed.has(initialCategory) ? initialCategory : 'all';
+    const initialSort = params.get('sort') || 'updated';
+    sort.value = ['updated','title','reading'].includes(initialSort) ? initialSort : 'updated';
+    currentView = params.get('view') === 'list' ? 'list' : 'grid';
+    apply(false);
+    if (params.has('focus')) search.focus();
+    search.addEventListener('input', () => apply());
+    category.addEventListener('change', () => apply());
+    sort.addEventListener('change', () => apply());
+    for (const button of viewButtons) button.addEventListener('click', () => { currentView = button.dataset.view === 'list' ? 'list' : 'grid'; apply(); });
+    document.querySelector('#app-library-reset')?.addEventListener('click', reset);
+    document.querySelector('#app-empty-reset')?.addEventListener('click', reset);
+  }
+</script>
