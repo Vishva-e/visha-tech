@@ -1,12 +1,13 @@
 ---
 import { categories } from '../data/site';
+import { productCandidates } from '../data/product-candidates.mjs';
 import '../styles/global.css';
 import '../styles/app-workspace.css';
 
 interface Props {
   title: string;
   description: string;
-  section: 'overview' | 'library' | 'saved' | 'detail';
+  section: 'overview' | 'library' | 'saved' | 'detail' | 'product';
   breadcrumb?: string;
 }
 const { title, description, section, breadcrumb } = Astro.props;
@@ -16,6 +17,7 @@ const navigation = [
   { label: 'Overview', href: '/dashboard/', id: 'overview', icon: 'grid' },
   { label: 'Explore library', href: '/dashboard/library/', id: 'library', icon: 'book' },
   { label: 'Saved guides', href: '/dashboard/saved/', id: 'saved', icon: 'bookmark' },
+  { label: 'Product spotlight', href: `/dashboard/products/${productCandidates[0].id}/`, id: 'product', icon: 'cube' },
 ] as const;
 ---
 <!doctype html>
@@ -46,7 +48,8 @@ const navigation = [
               <span class="visha-app-nav-symbol" aria-hidden="true">
                 {item.icon === 'grid' ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg> :
                  item.icon === 'book' ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 6c-3.2-2.3-6.2-2.4-9-1v14c3-1.2 6-1.1 9 1 3-2.1 6-2.2 9-1V5c-3-1.4-5.8-1.3-9 1Zm0 0v14"/></svg> :
-                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 4h12v17l-6-4-6 4V4Z" stroke-linejoin="round"/></svg>}
+                 item.icon === 'bookmark' ? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 4h12v17l-6-4-6 4V4Z" stroke-linejoin="round"/></svg> :
+                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 21 7v10l-9 5-9-5V7l9-5Zm0 0v20M3 7l9 5 9-5" stroke-linejoin="round"/></svg>}
               </span><span class="visha-app-nav-name">{item.label}</span>{item.id === 'saved' && <span class="visha-app-saved-number" id="app-saved-counter" aria-label="Number of saved guides">0</span>}
             </a>)}
           </nav>

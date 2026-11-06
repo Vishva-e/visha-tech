@@ -3,9 +3,11 @@ import AppLayout from '../../layouts/AppLayout.astro';
 import AppGuideCard from '../../components/AppGuideCard.astro';
 import CategoryArtwork from '../../components/CategoryArtwork.astro';
 import { categories } from '../../data/site';
+import { productCandidates } from '../../data/product-candidates.mjs';
 import { getCollection } from 'astro:content';
 const guides = (await getCollection('guides', ({ data }) => !data.draft))
   .sort((a, b) => b.data.updatedAt.getTime() - a.data.updatedAt.getTime());
+const spotlight = productCandidates[0];
 const featured = [...guides].sort((a, b) => Number(b.data.featured) - Number(a.data.featured)).slice(0, 3);
 const categoryCounts = categories.map(category => ({
   ...category,
@@ -32,6 +34,10 @@ const categoryCounts = categories.map(category => ({
     <div class="visha-app-stat visha-app-panel"><div class="visha-app-stat-label">Published guides</div><div class="visha-app-stat-value">{guides.length}</div><div class="visha-app-stat-foot">Editorial articles available</div></div>
     <div class="visha-app-stat visha-app-panel"><div class="visha-app-stat-label">Topics covered</div><div class="visha-app-stat-value">{categoryCounts.filter(category => category.count > 0).length}</div><div class="visha-app-stat-foot">Categories with published guides</div></div>
     <div class="visha-app-stat visha-app-panel"><div class="visha-app-stat-label">Saved for later</div><div id="dashboard-saved-count" class="visha-app-stat-value">0</div><div class="visha-app-stat-foot">Private to this browser</div></div>
+  </section>
+  <section class="visha-app-panel visha-app-product-teaser" aria-labelledby="dashboard-product-title">
+    <div><span class="visha-app-eyebrow">PRODUCT SPOTLIGHT · EDITORIAL REVIEW PENDING</span><h2 id="dashboard-product-title">Explore a product more closely.</h2><p>{spotlight.title} — a submitted listing to evaluate, not a verified recommendation or live offer.</p><a class="visha-app-text-link" href={`/dashboard/products/${spotlight.id}/`}>View product details ↗</a></div>
+    <div class="visha-app-product-teaser-art" aria-hidden="true"><span>⌁</span></div>
   </section>
   <section aria-labelledby="dashboard-category-title">
     <div class="visha-app-section-heading"><div><h2 id="dashboard-category-title">Browse by category</h2><p>Go straight to what interests you.</p></div><a class="visha-app-text-link" href="/dashboard/library/">View all topics ↗</a></div>

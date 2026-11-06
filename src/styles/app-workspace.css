@@ -224,3 +224,53 @@ body.visha-app-body{margin:0;background:var(--app-base);font-family:-apple-syste
   .visha-app-shell,.visha-app-sidebar,.visha-app-category-card,.visha-app-guide{transition:none!important}
   .visha-app-category-card:hover,.visha-app-guide:hover{transform:none}
 }
+
+/* Editorial product-detail view (no unverified commerce or pricing). */
+.visha-app-product-teaser{display:grid;grid-template-columns:1fr 190px;gap:26px;align-items:center;padding:29px 32px;overflow:hidden;margin:0 0 35px;background:linear-gradient(130deg,#fff,#f3f6fa)}
+.visha-app-product-teaser h2{font-size:clamp(20px,2.3vw,30px);font-weight:730;letter-spacing:-.045em;margin:9px 0}
+.visha-app-product-teaser p{font-size:13px;color:#777882;margin:0 0 17px;line-height:1.6}
+.visha-app-product-teaser-art{height:135px;width:135px;margin:auto;border-radius:50%;display:grid;place-items:center;background:linear-gradient(140deg,#dce4ef,#f6f8fa);box-shadow:0 0 0 22px #e7edf580,0 0 0 43px #e7edf530}
+.visha-app-product-teaser-art span{font-size:70px;color:#687d9c;font-weight:260;transform:rotate(-25deg)}
+.visha-app-product-view{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.88fr);gap:clamp(24px,4vw,64px);align-items:center;margin-bottom:23px}
+.visha-app-product-art{min-height:490px;display:grid;place-items:center;position:relative;overflow:hidden;background:linear-gradient(140deg,#e5e9ef,#f9fafc);border-radius:24px;padding:20px}
+.visha-app-product-light{position:absolute;width:70%;aspect-ratio:1;border-radius:50%;background:#ffffffb5;filter:blur(46px)}
+.visha-app-product-art svg{width:min(85%,270px);max-height:385px;position:relative;filter:drop-shadow(0 10px 23px #45506226)}
+.visha-app-product-art-caption{position:absolute;left:20px;right:20px;bottom:20px;text-align:center;color:#7c7d85;font-size:11px}
+.visha-app-product-summary{padding:clamp(8px,1.4vw,20px) 0}
+.visha-app-product-summary h1{font-size:clamp(33px,3.6vw,53px);font-weight:740;letter-spacing:-.055em;line-height:1.12;margin:15px 0 18px}
+.visha-app-product-description{font-size:17px;line-height:1.63;color:#60616a;margin:0}
+.visha-app-product-chips{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0}
+.visha-app-product-chips span{background:#e9edf4;border-radius:999px;padding:7px 12px;font-size:11px;color:#647184;font-weight:650}
+.visha-app-product-divider{height:1px;background:#e0e1e7;margin:25px 0}
+.visha-app-product-price-status strong{display:block;font-size:24px;font-weight:730;letter-spacing:-.03em}
+.visha-app-product-price-status span{display:block;font-size:12px;color:#888891;margin-top:6px}
+.visha-app-product-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:23px 0}
+.visha-app-product-pending{font-size:12px;color:#81818a;max-width:200px;line-height:1.5}
+.visha-app-product-disclaimer{font-size:11px;color:#8b8c93;line-height:1.65}
+.visha-app-product-bottom{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(240px,.65fr);gap:19px;margin:36px 0}
+.visha-app-product-checklist,.visha-app-product-facts{padding:clamp(23px,3vw,38px)}
+.visha-app-product-checklist h2{font-size:clamp(25px,2.7vw,38px);letter-spacing:-.05em;font-weight:740;margin:9px 0 30px}
+.visha-app-product-questions{display:grid;gap:17px}
+.visha-app-product-questions>div{display:flex;gap:19px;align-items:start;padding-top:15px;border-top:1px solid #ececf1}
+.visha-app-product-questions>div>span{font-size:12px;color:#a0a0a9;font-weight:690;flex:none}
+.visha-app-product-questions h3{font-size:15px;font-weight:700;letter-spacing:-.02em;margin:0 0 5px}
+.visha-app-product-questions p{font-size:13px;color:#85858e;line-height:1.58;margin:0}
+.visha-app-product-facts h2{font-size:18px;letter-spacing:-.03em;margin:0 0 23px}
+.visha-app-product-facts dl{display:grid;grid-template-columns:1fr;gap:3px;margin:0 0 24px}
+.visha-app-product-facts dt{font-size:11px;color:#9a9aa2;margin-top:13px}
+.visha-app-product-facts dd{font-size:13px;font-weight:620;color:#4a4b52;margin:0}
+@media(max-width:1100px){
+  .visha-app-product-view{grid-template-columns:1fr;gap:22px}
+  .visha-app-product-art{min-height:360px}
+  .visha-app-product-art svg{height:290px}
+  .visha-app-product-bottom{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .visha-app-product-teaser{grid-template-columns:1fr;gap:2px;padding:22px}
+  .visha-app-product-teaser-art{display:none}
+  .visha-app-product-art{min-height:325px}
+  .visha-app-product-art svg{height:260px}
+  .visha-app-product-summary h1{font-size:36px}
+  .visha-app-product-description{font-size:15px}
+  .visha-app-product-bottom{margin-top:25px}
+}
