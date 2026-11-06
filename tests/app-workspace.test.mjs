@@ -10,7 +10,7 @@ test('Workspace has distinct sidebar, toolbar and indexable-only-on-release meta
   assert.match(layout, /id="app-sidebar-toggle"/);
   assert.match(layout, /aria-controls="app-sidebar"/);
   assert.match(layout, /aria-label="Breadcrumb"/);
-  assert.match(layout, /id="app-content"/);
+  assert.match(layout, /id="main"/);
   assert.match(layout, /noindex,nofollow,noarchive/);
   assert.match(layout, /PUBLIC_SITE_LIVE/);
   assert.match(layout, /subscribeToSavedChanges/);
