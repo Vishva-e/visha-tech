@@ -63,7 +63,7 @@ export function createAmazonAffiliateLink(input) {
     asin = (match[1] || match[2]).toUpperCase();
   }
 
-  const target = new URL(\`/dp/\${asin}\`, 'https://www.amazon.in');
+  const target = new URL(`/dp/${asin}`, 'https://www.amazon.in');
   target.searchParams.set('tag', trackingId);
   return validateAmazonLink(target.toString());
 }
