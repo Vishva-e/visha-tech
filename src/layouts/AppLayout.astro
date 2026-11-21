@@ -137,6 +137,6 @@ const navigation = [
       subscribeToSavedChanges(() => { updateCounter(); updateSaveUI(); });
       if (window.matchMedia('(max-width: 900px)').matches) toggle?.setAttribute('aria-expanded','false');
     </script>
-    <script src="/workspace-enhancements.js"></script>
+    <script is:inline src="/workspace-enhancements.js"></script>
   </body>
 </html>
