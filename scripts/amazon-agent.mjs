@@ -5,7 +5,7 @@
  * No browser automation, account login, scraping, API credentials or publication.
  */
 import { randomUUID } from 'node:crypto';
-import { createAmazonAffiliateLink, validateAmazonLink } from './amazon-link-policy.mjs';
+import { createAmazonAffiliateLink } from './amazon-link-policy.mjs';
 import { ownerProvidedTrackingId } from '../src/config/amazon-associates.mjs';
 export { createAmazonAffiliateLink, validateAmazonLink } from './amazon-link-policy.mjs';
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
@@ -41,6 +41,7 @@ function parseFlags(argv) {
   return flags;
 }
 
+/** @param {Record<string, string>} flags */
 function getProductInput(flags) {
   const sources = [flags.asin, flags.url].filter(Boolean);
   if (sources.length !== 1) throw new Error('Provide exactly one of --asin or --url.');
