@@ -3,14 +3,23 @@ import { categories } from '../data/site';
 interface Props { path: string }
 const { path } = Astro.props;
 const links = [
-  { label: 'Workspace', href: '/dashboard/' },
+  { label: 'Research Desk', href: '/dashboard/' },
   { label: 'Shop', href: '/shop/' },
-  { label: 'Guides', href: '/guides/' },
+  { label: 'Buying Guides', href: '/guides/' },
   { label: 'Comparisons', href: '/comparisons/' },
   { label: 'Find your fit', href: '/product-finder/' },
 ];
 ---
 <header class="site-header visha-header" id="site-header">
+  <div class="visha-publication-bar" aria-label="Publication information">
+    <div class="shell">
+      <span>THE BUYER'S BRIEF</span>
+      <span class="visha-publication-bar-divider" aria-hidden="true">/</span>
+      <span>INDEPENDENT TECH RESEARCH</span>
+      <span class="visha-publication-bar-edition">INDIA EDITION</span>
+      <a href="/editorial-policy/">OUR EDITORIAL STANDARDS ↗</a>
+    </div>
+  </div>
   <div class="shell visha-header-inner">
     <a class="brand visha-brand" href="/" aria-label="Visha Shop home">
       <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M5 6h7l5 16h-6L5 6Zm18 0h-7l-3 9 3 7 7-16Z" fill="currentColor"/></svg></span>
@@ -24,7 +33,7 @@ const links = [
             <section aria-labelledby="visha-mega-categories">
               <p id="visha-mega-categories" class="visha-menu-eyebrow">Shop by category</p>
               <div class="visha-mega-grid">
-                {categories.map(category => <a href={`/categories/${category.slug}/`} class="visha-mega-item"><span>{category.name}</span><span aria-hidden="true">↗</span></a>)}
+                {categories.map(category => <a href={'/categories/' + category.slug + '/'} class="visha-mega-item"><span>{category.name}</span><span aria-hidden="true">↗</span></a>)}
               </div>
             </section>
             <section class="visha-mega-feature" aria-label="Helpful quick links">
@@ -64,7 +73,7 @@ const links = [
     <div class="shell">
       {links.map(link => <a href={link.href} aria-current={path === link.href ? 'page' : undefined}>{link.label}<span aria-hidden="true">↗</span></a>)}
       <p class="visha-menu-eyebrow">Categories</p>
-      {categories.map(category => <a class="visha-mobile-category" href={`/categories/${category.slug}/`}>{category.name}<span aria-hidden="true">↗</span></a>)}
+      {categories.map(category => <a class="visha-mobile-category" href={'/categories/' + category.slug + '/'}>{category.name}<span aria-hidden="true">↗</span></a>)}
       <a class="visha-mobile-about" href="/about/">About Visha Shop <span aria-hidden="true">↗</span></a>
     </div>
   </nav>
