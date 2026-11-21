@@ -8,7 +8,8 @@ An Astro + TypeScript + Tailwind CSS v4 static editorial website for Indian tech
 
 ## What's included
 
-- Responsive minimalist homepage, navigation and category tiles
+- Responsive editorial publication homepage with a lead story, latest research rail, category index, featured guides and a guided buying-decision flow
+- Publication-style masthead, responsive Explore/search navigation and visible affiliate/editorial transparency
 - Guide listing with client-side search, six category routes and article templates
 - Ten original **desk-research** buying guides (NOT claimed hands-on reviews)
 - About, Editorial Policy, Affiliate Disclosure, Privacy, Contact and 404 pages
