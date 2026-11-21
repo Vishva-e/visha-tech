@@ -1,115 +1,224 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import GuideCard from '../components/GuideCard.astro';
 import CategoryArtwork from '../components/CategoryArtwork.astro';
-import { categories } from '../data/site';
+import { categories, categoryBySlug, formatDate } from '../data/site';
 import { getCollection } from 'astro:content';
+
 const guides = (await getCollection('guides', ({ data }) => !data.draft))
   .sort((a, b) => b.data.updatedAt.getTime() - a.data.updatedAt.getTime());
-const featured = [...guides]
-  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured))
+const featured = guides
+  .filter((guide) => guide.data.featured)
+  .sort((a, b) => b.data.updatedAt.getTime() - a.data.updatedAt.getTime())
   .slice(0, 3);
+const lead = featured[0] ?? guides[0];
+const latest = guides.filter((guide) => guide.id !== lead?.id).slice(0, 4);
+const topics = categories.map((category) => ({
+  category,
+  count: guides.filter((guide) => guide.data.category === category.slug).length,
+}));
 ---
-<BaseLayout title="Home" description="Discover smarter tech shopping with Visha Shop. Explore independent laptop, developer gear, audio and storage buying guides, comparisons and practical product advice.">
-  <section class="visha-home-intro">
-    <div class="shell visha-intro-layout">
-      <div class="visha-intro-copy">
-        <span class="visha-small-label">VISHA SHOP · INDEPENDENT TECH GUIDES</span>
-        <h1>Find tech that<br/><span>fits your life.</span></h1>
-      </div>
-      <div class="visha-intro-aside">
-        <p>Thoughtful buying advice for the technology you use every day. Less noise. Better decisions.</p>
-        <a href="/product-finder/" class="visha-inline-link">Find my tech fit <span aria-hidden="true">↗</span></a>
-        <a href="/editorial-policy/" class="visha-inline-link muted">How we research <span aria-hidden="true">↗</span></a>
-      </div>
-    </div>
-    <div class="shell visha-category-rail" aria-label="Browse shopping categories">
-      {categories.map(category => <a class="visha-category-quicklink" href={`/categories/${category.slug}/`}>
-        <span class="visha-category-orb" aria-hidden="true"><CategoryArtwork slug={category.slug} /></span>
-        <span>{category.name}</span>
-      </a>)}
-    </div>
-  </section>
-  <section class="visha-spotlight" aria-labelledby="spotlight-heading">
-    <div class="shell">
-      <div class="visha-spotlight-panel">
-        <div class="visha-spotlight-copy">
-          <span class="visha-small-label">THE SMARTER WAY TO CHOOSE</span>
-          <h2 id="spotlight-heading">Meet your next<br/>better decision.</h2>
-          <p>From a laptop that keeps up to the gear that makes everyday work easier. Start with what matters to you.</p>
-          <div class="visha-spotlight-actions">
-            <a href="/shop/" class="visha-pill-link">Explore the shop <span aria-hidden="true">↗</span></a>
-            <a href="/product-finder/" class="visha-quiet-link">Get a recommendation <span aria-hidden="true">↗</span></a>
+
+<BaseLayout title="Home" description="Independent technology buying intelligence for India. Explore researched buying guides, clear comparisons and practical advice before choosing your next device.">
+  <div class="visha-publication-home">
+    <section class="visha-publication-intro" aria-labelledby="publication-title">
+      <div class="shell">
+        <div class="visha-edition-row">
+          <span>THE BUYER'S BRIEF</span>
+          <span>INDEPENDENT TECH RESEARCH</span>
+          <span>INDIA EDITION</span>
+        </div>
+        <div class="visha-masthead-copy">
+          <div>
+            <span class="visha-editorial-kicker">TECHNOLOGY / WORK / EVERYDAY BUYING</span>
+            <h1 id="publication-title">Better tech.<br /><em>Better decisions.</em></h1>
+          </div>
+          <div class="visha-masthead-note">
+            <p>Independent research for people who want to choose well — not just buy more.</p>
+            <a href="/product-finder/">Start with what matters to you <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <div class="visha-device-scene" aria-hidden="true">
-          <div class="visha-scene-glow"></div>
-          <div class="visha-device-display">
-            <div class="visha-device-camera"></div>
-            <div class="visha-device-screen">
-              <div class="visha-screen-kicker">VISHA SELECT</div>
-              <div class="visha-screen-heading">Less noise.<br/>More clarity.</div>
-              <div class="visha-screen-rule"></div>
-              <div class="visha-screen-bars"><span></span><span></span><span></span></div>
+        <div class="visha-masthead-rule">
+          <span>RESEARCH BEFORE RECOMMENDATION</span>
+          <span>NO INVENTED REVIEWS · NO FAKE PRICES</span>
+        </div>
+      </div>
+    </section>
+
+    {lead && (
+      <section class="visha-frontpage" aria-label="Featured research and latest guides">
+        <div class="shell visha-frontpage-grid">
+          <article class="visha-lead-story">
+            <a class="visha-cover-art" href={'/guides/' + lead.id + '/'} aria-label={'Read ' + lead.data.title}>
+              <div class="visha-cover-art-top">
+                <span>VISHA / FIELD NOTES</span>
+                <span>VOL. 01 — FEATURE</span>
+              </div>
+              <div class="visha-cover-art-stage" aria-hidden="true">
+                <div class="visha-cover-orbit"></div>
+                <div class="visha-cover-laptop">
+                  <div class="visha-cover-screen">
+                    <span>THE VISHA SELECT</span>
+                    <strong>CHOOSE<br />WITH<br />CLARITY.</strong>
+                    <i></i>
+                    <small>THE BUYER'S BRIEF</small>
+                  </div>
+                  <div class="visha-cover-laptop-base"></div>
+                </div>
+                <div class="visha-cover-stamp">BUY<br />BETTER</div>
+                <div class="visha-cover-side-note">SPECS THAT<br />MATTER.</div>
+              </div>
+              <div class="visha-cover-art-bottom">
+                <span>INDEPENDENT BUYING INTELLIGENCE</span>
+                <span>01 / 03</span>
+              </div>
+            </a>
+            <div class="visha-lead-copy">
+              <div class="visha-story-labels">
+                <span>{categoryBySlug(lead.data.category)?.name ?? 'Technology'}</span>
+                <span>{lead.data.reviewType === 'hands-on' ? 'DOCUMENTED HANDS-ON REVIEW' : 'DESK RESEARCH'}</span>
+              </div>
+              <h2><a href={'/guides/' + lead.id + '/'}>{lead.data.title}</a></h2>
+              <p>{lead.data.description}</p>
+              <div class="visha-story-byline">
+                <span>Visha Research Desk</span>
+                <span aria-hidden="true">·</span>
+                <time datetime={lead.data.updatedAt.toISOString()}>Updated {formatDate(lead.data.updatedAt)}</time>
+                <span aria-hidden="true">·</span>
+                <span>{lead.data.readMinutes} min read</span>
+              </div>
+              <a class="visha-editorial-link" href={'/guides/' + lead.id + '/'}>Read the featured guide <span aria-hidden="true">↗</span></a>
             </div>
+          </article>
+
+          <aside class="visha-latest-column" aria-labelledby="latest-heading">
+            <div class="visha-latest-heading">
+              <div>
+                <span class="visha-editorial-kicker">FRESH FROM THE DESK</span>
+                <h2 id="latest-heading">The latest</h2>
+              </div>
+              <a href="/guides/" aria-label="View all buying guides">All stories ↗</a>
+            </div>
+            <div class="visha-latest-list">
+              {latest.map((guide, index) => (
+                <article class="visha-latest-item">
+                  <span class="visha-latest-number">{String(index + 1).padStart(2, '0')}</span>
+                  <div>
+                    <span class="visha-latest-category">{categoryBySlug(guide.data.category)?.name ?? 'Technology'}</span>
+                    <h3><a href={'/guides/' + guide.id + '/'}>{guide.data.title}</a></h3>
+                    <p>{formatDate(guide.data.updatedAt)} <span aria-hidden="true">·</span> {guide.data.readMinutes} min</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+            <a class="visha-latest-more" href="/guides/">Explore the research library <span aria-hidden="true">↗</span></a>
+          </aside>
+        </div>
+      </section>
+    )}
+
+    <section class="visha-publication-stats" aria-label="Visha Shop editorial facts">
+      <div class="shell visha-stats-grid">
+        <div><strong>{String(guides.length).padStart(2, '0')}</strong><span>RESEARCHED GUIDES</span></div>
+        <div><strong>{String(categories.length).padStart(2, '0')}</strong><span>BUYING CATEGORIES</span></div>
+        <div><strong>01</strong><span>READER FIRST, ALWAYS</span></div>
+        <div><strong>0</strong><span>INVENTED REVIEWS OR PRICES</span></div>
+      </div>
+    </section>
+
+    <section class="visha-topic-section" aria-labelledby="topics-heading">
+      <div class="shell">
+        <div class="visha-section-intro">
+          <div>
+            <span class="visha-editorial-kicker">SHOPPING INTELLIGENCE</span>
+            <h2 id="topics-heading">Know the category.<br /><em>Understand the choice.</em></h2>
           </div>
-          <div class="visha-device-bottom"></div>
+          <p>Start with the technology you need. Explore the specifications, trade-offs and practical questions worth checking before you spend.</p>
+        </div>
+        <div class="visha-topic-grid">
+          {topics.map((topic, index) => (
+            <a class="visha-topic-card" href={'/categories/' + topic.category.slug + '/'}>
+              <div class="visha-topic-topline">
+                <span>SECTION / {String(index + 1).padStart(2, '0')}</span>
+                <span aria-hidden="true">↗</span>
+              </div>
+              <div class="visha-topic-art"><CategoryArtwork slug={topic.category.slug} /></div>
+              <h3>{topic.category.name}</h3>
+              <p>{topic.category.summary}</p>
+              <span class="visha-topic-count">{topic.count > 0 ? topic.count + (topic.count === 1 ? ' guide' : ' guides') : 'Research in progress'}</span>
+            </a>
+          ))}
         </div>
       </div>
-    </div>
-  </section>
-  <section class="visha-editorial-section" aria-labelledby="latest-guides-heading">
-    <div class="shell">
-      <div class="visha-editorial-heading">
+    </section>
+
+    <section class="visha-selection-section" aria-labelledby="selection-heading">
+      <div class="shell">
+        <div class="visha-selection-heading">
+          <div>
+            <span class="visha-editorial-kicker">THE EDITOR'S SELECTION</span>
+            <h2 id="selection-heading">Worth a closer look.</h2>
+            <p>Useful questions, explained without the marketing noise.</p>
+          </div>
+          <a class="visha-editorial-link" href="/guides/">View every guide <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="visha-selection-grid">
+          {featured.map((guide, index) => (
+            <article class="visha-selection-card">
+              <a class:list={['visha-selection-art', 'visha-selection-art-' + (index + 1)]} href={'/guides/' + guide.id + '/'} aria-hidden="true" tabindex="-1">
+                <span>VISHA RESEARCH / {String(index + 1).padStart(2, '0')}</span>
+                <CategoryArtwork slug={guide.data.category} />
+                <small>{categoryBySlug(guide.data.category)?.name ?? 'Technology'}</small>
+              </a>
+              <div class="visha-selection-copy">
+                <span class="visha-selection-category">{categoryBySlug(guide.data.category)?.name ?? 'Technology'} <span aria-hidden="true">/</span> {guide.data.readMinutes} MIN READ</span>
+                <h3><a href={'/guides/' + guide.id + '/'}>{guide.data.title}</a></h3>
+                <p>{guide.data.description}</p>
+                <div class="visha-selection-meta">
+                  <time datetime={guide.data.updatedAt.toISOString()}>{formatDate(guide.data.updatedAt)}</time>
+                  <a href={'/guides/' + guide.id + '/'}>Read guide ↗</a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="visha-method-section" aria-labelledby="method-heading">
+      <div class="shell visha-method-layout">
+        <div class="visha-method-intro">
+          <span class="visha-editorial-kicker">THE VISHA METHOD</span>
+          <h2 id="method-heading">A better purchase is a decision — not a guess.</h2>
+          <p>We turn product research into a simple process, so you can focus on what makes sense for your work, budget and everyday life.</p>
+          <a href="/product-finder/">Build your buying brief <span aria-hidden="true">↗</span></a>
+        </div>
+        <ol class="visha-method-steps">
+          <li><span>01</span><div><h3>Discover your needs</h3><p>Start with your workload, habits and budget.</p></div></li>
+          <li><span>02</span><div><h3>Understand the trade-offs</h3><p>Separate useful specifications from marketing language.</p></div></li>
+          <li><span>03</span><div><h3>Compare the evidence</h3><p>Check official specifications and reliable references.</p></div></li>
+          <li><span>04</span><div><h3>Choose with confidence</h3><p>Verify the exact model, seller, warranty and final terms.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="visha-transparency-section" aria-labelledby="transparency-heading">
+      <div class="shell visha-transparency-layout">
         <div>
-          <span class="visha-small-label">WORTH YOUR TIME</span>
-          <h2 id="latest-guides-heading">Discover the good stuff.</h2>
-          <p>Clear buying guides. Real trade-offs. No invented prices or reviews.</p>
+          <span class="visha-editorial-kicker">THE VISHA STANDARD</span>
+          <h2 id="transparency-heading">Trust before<br /><em>transaction.</em></h2>
+          <p>Our job is to make the decision clearer. We distinguish desk research from documented hands-on testing, explain limitations and do not invent prices, ratings or product experiences.</p>
+          <div class="visha-transparency-links">
+            <a href="/editorial-policy/">Editorial standards ↗</a>
+            <a href="/affiliate-disclosure/">Affiliate disclosure ↗</a>
+          </div>
         </div>
-        <a class="visha-inline-link" href="/guides/">Explore all guides <span aria-hidden="true">↗</span></a>
+        <aside class="visha-affiliate-status">
+          <span>COMMERCIAL TRANSPARENCY</span>
+          <strong>Editorial first.</strong>
+          <p>Affiliate purchase links are not active at this time. If approved links are introduced later, they will be clearly identified and will not determine editorial selection.</p>
+          <small>No invented hands-on tests or undisclosed paid placements.</small>
+        </aside>
       </div>
-      <div class="visha-featured-scroll" aria-label="Featured buying guides">
-        {featured.map(guide => <GuideCard guide={guide} />)}
-      </div>
-      <p class="visha-rail-caption">{guides.length} in-depth guides · Independent research · Made for India</p>
-    </div>
-  </section>
-  <section class="visha-discover-section" aria-labelledby="compare-heading">
-    <div class="shell">
-      <div class="visha-editorial-heading">
-        <div>
-          <span class="visha-small-label">DECISIONS MADE SIMPLE</span>
-          <h2 id="compare-heading">Compare before you commit.</h2>
-          <p>Understand what changes in everyday use, not just on a spec sheet.</p>
-        </div>
-        <a href="/comparisons/" class="visha-inline-link">All comparisons <span aria-hidden="true">↗</span></a>
-      </div>
-      <div class="visha-decision-grid">
-        <a class="visha-decision-card visha-decision-card-dark" href="/guides/how-much-ram-for-developers/">
-          <div><span class="visha-small-label">DEVELOPER ESSENTIALS</span><h3>16 GB or 32 GB?<br/>Know what you need.</h3><p>Memory decisions for IDEs, Docker and real development workloads.</p></div>
-          <span class="visha-decision-art visha-memory-art" aria-hidden="true"><span>16<span>GB</span></span><span>32<span>GB</span></span></span>
-          <span class="visha-card-action">Read the guide <span aria-hidden="true">↗</span></span>
-        </a>
-        <a class="visha-decision-card visha-decision-card-light" href="/comparisons/">
-          <div><span class="visha-small-label">SIDE-BY-SIDE THINKING</span><h3>Choose with<br/>confidence.</h3><p>Storage, sound and everyday gear — compare the trade-offs that matter.</p></div>
-          <span class="visha-decision-art visha-comparison-art" aria-hidden="true"><span></span><span></span><span></span></span>
-          <span class="visha-card-action">Explore comparisons <span aria-hidden="true">↗</span></span>
-        </a>
-      </div>
-    </div>
-  </section>
-  <section class="visha-finder-section" aria-labelledby="finder-heading">
-    <div class="shell visha-finder-inner">
-      <span class="visha-small-label">GUIDANCE THAT STARTS WITH YOU</span>
-      <h2 id="finder-heading">Your needs first.<br/><span>Always.</span></h2>
-      <p>Choose what you use, what matters, and what you can spend. We'll help you focus on the specifications worth checking.</p>
-      <a href="/product-finder/" class="visha-pill-link">Find my tech fit <span aria-hidden="true">↗</span></a>
-    </div>
-  </section>
-  <section class="visha-promise-section" aria-labelledby="promise-heading">
-    <div class="shell visha-promise-inner">
-      <div><span class="visha-small-label">THE VISHA PROMISE</span><h2 id="promise-heading">Helpful advice.<br/>No unnecessary hype.</h2></div>
-      <div><p>We focus on practical specifications, transparent desk research, and the trade-offs you need to make a confident purchase. No invented hands-on tests or undisclosed paid placements.</p><a class="visha-inline-link" href="/editorial-policy/">Our editorial promise <span aria-hidden="true">↗</span></a></div>
-    </div>
-  </section>
+    </section>
+  </div>
 </BaseLayout>

@@ -6,12 +6,13 @@ import '../styles/modern.css';
 import '../styles/shop.css';
 import '../styles/apple-inspired.css';
 import '../styles/editorial-store.css';
+import '../styles/publication.css';
 interface Props { title: string; description: string; kind?: 'website'|'article'; }
 const { title, description, kind = 'website' } = Astro.props;
 const currentPath = Astro.url.pathname;
 const live = import.meta.env.PUBLIC_SITE_LIVE === 'true';
 const canonical = live && Astro.site ? new URL(currentPath, Astro.site).href : undefined;
-const fullTitle = title === 'Home' ? 'Visha Shop' : `${title} | Visha Shop`;
+const fullTitle = title === 'Home' ? 'Visha Shop' : title + ' | Visha Shop';
 ---
 <!doctype html>
 <html lang="en-IN">
