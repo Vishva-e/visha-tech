@@ -11,7 +11,7 @@ export { createAmazonAffiliateLink, validateAmazonLink } from './amazon-link-pol
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 
-const HELP = \`Visha Shop • Amazon link builder + review queue
+const HELP = `Visha Shop • Amazon link builder + review queue
   Generate a tagged link:
     npm run agent:amazon -- link --asin B07NYB3HMC
     npm run agent:amazon -- link --url "https://www.amazon.in/dp/B07NYB3HMC"
@@ -25,7 +25,7 @@ const HELP = \`Visha Shop • Amazon link builder + review queue
 
 The owner tracking ID is added automatically. Only direct HTTPS amazon.in product URLs or 10-character ASINs are accepted. Short links, scraping, copied reviews/images, direct publishing and account passwords are not supported.
 Drafts remain local in data/amazon/review-queue/ (gitignored).
-\`;
+`;
 
 /** @param {string[]} argv @returns {Record<string, string>} */
 function parseFlags(argv) {
@@ -58,7 +58,7 @@ async function main() {
   if (command === 'link') {
     const flags = parseFlags(rawFlags);
     const link = createAmazonAffiliateLink(getProductInput(flags));
-    process.stdout.write(\`\${link.url}\\n\`);
+    process.stdout.write(`${link.url}\n`);
     return;
   }
   if (command === 'queue') {
@@ -86,16 +86,16 @@ async function main() {
       createdAt: new Date().toISOString(),
     };
     await mkdir(queueDir, { recursive: true, mode: 0o700 });
-    const name = \`\${record.amazon.asin}-\${record.id}.json\`;
-    await writeFile(join(queueDir, name), JSON.stringify(record, null, 2) + '\\n', { flag: 'wx', mode: 0o600 });
-    process.stdout.write(\`Draft queued for human review: \${name}\\nAffiliate link generated with the configured tracking ID.\\nNo website or Amazon account changes were made.\\n\`);
+    const name = `${record.amazon.asin}-${record.id}.json`;
+    await writeFile(join(queueDir, name), JSON.stringify(record, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
+    process.stdout.write(`Draft queued for human review: ${name}\nAffiliate link generated with the configured tracking ID.\nNo website or Amazon account changes were made.\n`);
     return;
   }
   if (command === 'list') {
     let names;
     try { names = await readdir(queueDir); }
     catch (error) {
-      if (error instanceof Error && 'code' in error && error.code === 'ENOENT') { process.stdout.write('Review queue is empty.\\n'); return; }
+      if (error instanceof Error && 'code' in error && error.code === 'ENOENT') { process.stdout.write('Review queue is empty.\n'); return; }
       throw error;
     }
     const rows = [];
@@ -103,10 +103,10 @@ async function main() {
       const record = JSON.parse(await readFile(join(queueDir, name), 'utf8'));
       rows.push({ id: record.id, asin: record.amazon?.asin, status: record.reviewStatus, publishApproved: record.publishApproved, title: record.title });
     }
-    process.stdout.write(JSON.stringify(rows, null, 2) + '\\n');
+    process.stdout.write(JSON.stringify(rows, null, 2) + '\n');
     return;
   }
   throw new Error('Unsupported command. Try: npm run agent:amazon -- help');
 }
 
-main().catch(error => { process.stderr.write(\`Amazon agent: \${error.message}\\n\`); process.exitCode = 1; });
+main().catch(error => { process.stderr.write(`Amazon agent: ${error.message}\n`); process.exitCode = 1; });
