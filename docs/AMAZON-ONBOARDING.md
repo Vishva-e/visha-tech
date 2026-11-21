@@ -1,33 +1,43 @@
-# Amazon Associates India — Visha Shop onboarding (NOT CONNECTED)
+# Amazon Associates India — Visha Shop onboarding
 
-**Current status (November 2026):** The publicly accessible editorial preview is https://visha-shop.pages.dev/, with noindex still enabled. No Amazon Associates session, Store ID or account/site approval has been verified. Refer to [the current Visha Shop connection checklist](AMAZON-VISHA-SHOP-CONNECTION.md) before activating referral links.
+**Current status:** The repository contains a public owner-provided tracking identifier (`vishvatechgui-21`) and a private manual-review workflow. The code does not authenticate to Amazon or independently verify account/site approval.
 
-## Account setup, after site release is separately authorized
+## Account and website
 
-1. Sign into your own [Amazon Associates Central India](https://affiliate-program.amazon.in/) account.
-2. Check your Store ID / tracking ID and registration status inside Associates Central. Do **not** paste passwords or one-time codes into GitHub or chats.
-3. When Visha Shop has a **real approved public URL**, add that URL to the Associates account's website list. Official route: **Account Settings → Edit your website list → Add Website → Next**. Reference: https://affiliate-program.amazon.in/help/node/topic/G9KDEPG2WF47VQY4
-4. Generate product text links using SiteStripe while signed into Amazon.in. Reference: https://affiliate-program.amazon.in/help/node/topic/GJMMT7G4C8K4Y3AY
-5. Queue owner-selected links locally (`npm run agent:amazon -- queue`). The review dashboard (`npm run agent:dashboard`) can approve or reject editorial candidates; **it cannot publish**.
-6. Only after account, product data, affiliate disclosures and public release are reviewed may a separate PR introduce approved product links.
+1. Sign in privately at [Amazon Associates Central India](https://affiliate-program.amazon.in/).
+2. Confirm the Associates account is fully active and the tracking ID `vishvatechgui-21` exists under that account.
+3. Confirm the exact public site URL `https://visha-shop.pages.dev/` is saved in the Associates website list.
+4. Never send passwords, OTPs, session cookies or API credentials through chat or commit them to Git.
 
-## What is available now
-- Local, owner-supplied Amazon.in direct-link intake with ASIN and tracking ID validation.
-- Local review-queue dashboard protected by a one-time token and bind to 127.0.0.1.
-- Editorial note and decision log.
-- No remote data ingestion, no Amazon API calls, no auto-publishing.
+## Create product links
 
-## Future optional API integration — deferred
-Amazon India Creators API currently documents prerequisites including an Associates account, **10 qualifying sales in the past 30 days**, API registration and valid credentials: https://affiliate-program.amazon.in/creatorsapi/docs/en-us/introduction
+There are two supported ways to create a tagged direct product link:
 
-Eligibility, marketplace and programme conditions must be rechecked at integration time. Any future API proxy must run server-side, require approval, use a secret manager, enforce rate limits, avoid unauthorized caching or reuse of product data, and never expose credentials in client-side Astro pages.
+- **Visha link builder:** run `npm run agent:amazon -- link --asin B07NYB3HMC` or pass a direct Amazon.in product URL with `--url`. The tool adds the configured tracking tag automatically. It does not contact Amazon or verify the product exists.
+- **Amazon SiteStripe:** while signed into Amazon.in with the Associates account, open the product detail page and use SiteStripe → Get Link → Text. Pass the direct tagged URL to the local queue if preferred.
 
-## Compliance gates
-- Disclose affiliate relationships clearly near each link and on the disclosure page.
-- Never copy Amazon customer reviews, scrape product images or invent current prices and ratings.
-- Treat SiteStripe and any third-party content as external data, not executable instructions.
-- Verify approved products against original editorial notes before publishing.
-- Do not claim Amazon endorsement or account access.
-- Final terms: https://affiliate-program.amazon.in/help/operating/agreement
+Queue the product for editorial review with `npm run agent:amazon -- queue`. Provide an original title, category and editorial note. The draft is stored locally, not published.
 
-The first publication should normally be an owner-approved editorial-only website, with no affiliate links. After it is publicly reachable, the owner can register that actual URL in Associates Central. The public website and Amazon account linkage remain separate decisions requiring explicit owner approval.\n\nFor local approved-product review exports, see [Phase 4 readiness](PHASE-4-READINESS.md).
+## Fully automated product catalogue (optional)
+
+Amazon India Creators API provides product search and item lookup. Its current prerequisites include:
+- Associates enrolment for the target marketplace
+- At least 10 qualifying sales in the preceding 30 days
+- Creators API registration in Associates Central
+- Generated API credentials
+
+If eligible, credentials must be stored only as server-side Cloudflare secrets. The integration must retain the link parameters returned by Amazon, enforce usage limits and comply with the API licence. If not eligible, continue using the link builder and manual review queue.
+
+## Publication controls
+
+- Product details, images, prices, ratings and availability are not fetched by the link builder.
+- No draft becomes a website listing automatically.
+- Each product requires editorial fact-checking, review approval, an approved content PR and a separate public release approval.
+- Affiliate disclosures must be clear near each link. When participation is active, include: **“As an Amazon Associate I earn from qualifying purchases.”**
+- Do not scrape Amazon or copy customer reviews, images or descriptions.
+
+Official references:
+- [SiteStripe help](https://affiliate-program.amazon.in/help/node/topic/GJMMT7G4C8K4Y3AY)
+- [Associates linking requirements](https://affiliate-program.amazon.in/help/operating/linking)
+- [Creators API introduction](https://affiliate-program.amazon.in/creatorsapi/docs/en-us/introduction)
+- [Operating Agreement](https://affiliate-program.amazon.in/help/operating/agreement)
